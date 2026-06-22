@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor del Programa de la Reunión - Presidencia</title>
+    <style>
+        :root {
+            --primary-color: #4a3b68;
+            --highlight-color: #d9381e; 
+            --treasures-color: #5b6770;
+            --ministry-color: #c17a10;
+            --living-color: #922725;
+            --bg-color: #f7f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1d5db;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .highlight-title {
+            color: var(--highlight-color);
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 260px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            z-index: 1;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            margin-top: 5px;
+        }
+
+        .dropdown-content .month-group {
+            background-color: #f3f4f6;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 10px 12px;
+            text-decoration: none;
+            display: block;
+            font-size: 13.5px;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .show { display: block; }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn:hover { opacity: 0.9; }
+        .btn-secondary { background-color: #e5e7eb; color: #374151; }
+        .btn-secondary:hover { background-color: #d1d5db; }
+
+        .section-header {
+            color: white;
+            padding: 6px 12px;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-radius: 2px;
+        }
+
+        .bg-treasures { background-color: var(--treasures-color); }
+        .bg-ministry { background-color: var(--ministry-color); }
+        .bg-living { background-color: var(--living-color); }
+
+        .assignment {
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 0;
+        }
+
+        .assignment:last-child { border-bottom: none; }
+
+        .assignment-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            font-weight: bold;
+            font-size: 14.5px;
+            margin-bottom: 2px;
+        }
+
+        .title-and-links {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .inline-links {
+            font-size: 12px;
+            font-weight: normal;
+            font-style: italic;
+            color: #666;
+        }
+
+        .source-link {
+            color: #2563eb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .source-link:hover { color: #1d4ed8; }
+
+        .assignment-time { 
+            white-space: nowrap; 
+            color: #444; 
+            font-size: 13.5px; 
+            font-weight: bold;
+            margin-left: 2px;
+        }
+
+        .input-title {
+            font-family: inherit;
+            font-size: 14.5px;
+            font-weight: bold;
+            border: 1px solid transparent;
+            background: transparent;
+            padding: 2px;
+            width: 260px;
+        }
+        .input-title:hover, .input-title:focus {
+            border-color: var(--border-color);
+            background: #fff;
+        }
+
+        .input-source-editable {
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: normal;
+            font-style: italic;
+            color: #666;
+            border: 1px solid transparent;
+            background: transparent;
+            padding: 2px;
+            width: 150px;
+        }
+        .input-source-editable:hover, .input-source-editable:focus {
+            border-color: var(--border-color);
+            background: #fff;
+        }
+
+        .input-time {
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: bold;
+            border: 1px solid transparent;
+            background: transparent;
+            padding: 2px;
+            width: 70px;
+            color: #444;
+        }
+        .input-time:hover, .input-time:focus {
+            border-color: var(--border-color);
+            background: #fff;
+        }
+
+        .inline-assign {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            min-width: 200px;
+            max-width: 240px;
+        }
+
+        .inline-assign.double-field {
+            min-width: 290px;
+            max-width: 330px;
+        }
+
+        .inline-assign label {
+            font-size: 11.5px;
+            font-weight: bold;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .inline-assign input[type="text"] {
+            padding: 4px 6px;
+            font-size: 13px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 2px;
+            margin-left: 8px;
+        }
+
+        .btn-sort {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 2px 5px;
+            font-size: 11px;
+            transition: background 0.1s;
+        }
+        .btn-sort:hover { background: #e5e7eb; }
+        
+        .btn-delete {
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #dc2626;
+        }
+        .btn-delete:hover { background: #fca5a5; }
+
+        .notes-area {
+            display: flex;
+            flex-direction: column;
+            margin-top: 6px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: inherit;
+            resize: none; 
+            height: 40px;
+            max-height: 115px; 
+            overflow-y: auto; 
+        }
+
+        .add-btn-container {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .btn-add-custom {
+            background-color: var(--highlight-color);
+            color: white;
+            border: none;
+            width: 42px;
+            height: 42px;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #991b1b, 0 5px 10px rgba(0,0,0,0.15);
+            transition: all 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-add-custom:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0 #991b1b, 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 850px) {
+            .assignment-title-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+            .inline-assign { max-width: 100%; width: 100%; }
+        }
+
+        /* Formato de Impresión Óptimo */
+        @media print {
+            @page { 
+                size: letter; 
+                margin: 10mm 10mm; 
+            }
+            
+            html, body {
+                background-color: #fff;
+                color: #000;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container { max-width: 100%; width: 100%; box-shadow: none; padding: 0; margin: 0; }
+            .controls, .no-print, .dropdown-content, .add-btn-container, .order-actions { display: none !important; }
+            
+            input[type="text"], .input-title, .input-time, .input-source-editable { 
+                border: none; 
+                border-bottom: 1px dotted #999; 
+                border-radius: 0; 
+                padding: 2px 0; 
+                background: transparent; 
+            }
+
+            textarea { 
+                border: none;
+                border-bottom: 1px dotted #999;
+                border-radius: 0;
+                padding: 2px 0;
+                background: transparent;
+                height: 100px !important; 
+                min-height: 100px !important;
+                max-height: none !important;
+                overflow: visible !important;
+                display: block;
+            }
+            
+            .assignment { page-break-inside: avoid; }
+            .section-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .source-link { color: #000; cursor: default; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="controls no-print">
+        <div class="dropdown">
+            <button class="btn" onclick="toggleDropdown()">📅 22-28 DE JUNIO DE 2026 +</button>
+            <div id="weeksDropdown" class="dropdown-content">
+                <div class="month-group">Junio 2026</div>
+                <a href="#" onclick="selectWeek('22-28 de junio')">22-28 de junio (Actual)</a>
+                <div class="month-group">Julio 2026</div>
+                <a href="#" onclick="selectWeek('29 de junio al 5 de julio')">29 de junio al 5 de julio</a>
+                <a href="#" onclick="selectWeek('6-12 de julio')">6-12 de julio</a>
+                <a href="#" onclick="selectWeek('13-19 de julio')">13-19 de julio</a>
+                <a href="#" onclick="selectWeek('20-26 de julio')">20-26 de julio</a>
+                <a href="#" onclick="selectWeek('27 de julio al 2 de agosto')">27 de julio al 2 de agosto</a>
+            </div>
+        </div>
+        <button class="btn btn-secondary" onclick="window.print()">🖨️ Imprimir Programa</button>
+    </div>
+
+    <header>
+        <div class="header-top">
+            <h1>VIDA Y MINISTERIO CRISTIANO</h1>
+            <div class="highlight-title">PRESIDENCIA</div>
+        </div>
+        <div style="font-size: 14px; color: #555; margin-top: 5px;">Lectura bíblica semanal: <a class="source-link" href="https://wol.jw.org/es/wol/b/r4/lp-s/nwtsty/E/2026/24/9" target="_blank" rel="noopener noreferrer">JEREMÍAS 9, 10</a></div>
+    </header>
+
+    <!-- INTRODUCCIÓN -->
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <div><a class="source-link" href="https://wol.jw.org/es/wol/d/r4/lp-s/2016405" target="_blank" rel="noopener noreferrer">Canción 5: Dios es amor</a> — <a class="source-link" href="https://wol.jw.org/es/wol/b/r4/lp-s/nwtsty/E/2026/62/4#study=discover&v=62004008" target="_blank" rel="noopener noreferrer">1 Juan 4:8</a></div>
+                <div class="assignment-time">(1 min.)</div>
+            </div>
+            <div class="inline-assign double-field">
+                <label>Intro:</label> <input type="text" placeholder="Hermano" style="margin-right:3px;">
+                <label>Oración:</label> <input type="text" placeholder="Hermano">
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    </div>
+
+    <!-- TESOROS DE LA BIBLIA -->
+    <div class="section-header bg-treasures">Tesoros de la Biblia</div>
+
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <div>1. ¿De qué presumirá usted?</div>
+                <div class="inline-links">
+                    (<a class="source-link" href="https://wol.jw.org/es/wol/b/r4/lp-s/nwtsty/E/2026/24/9#study=discover&v=24009023" target="_blank" rel="noopener noreferrer">Jer 9:23</a>; 
+                    <a class="source-link" href="https://wol.jw.org/es/wol/d/r4/lp-s/2020482#h=19" target="_blank" rel="noopener noreferrer">w20.07 6 párrs. 13-15</a>; 
+                    <a class="source-link" href="https://wol.jw.org/es/wol/d/r4/lp-s/2025406#h=19" target="_blank" rel="noopener noreferrer">w25.05 30 párr. 14</a>)
+                </div>
+                <div class="assignment-time">(10 mins.)</div>
+            </div>
+            <div class="inline-assign">
+                <label>Asignado:</label> <input type="text" placeholder="Hermano">
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    </div>
+
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <div>2. Busquemos perlas escondidas</div>
+                <div class="inline-links">
+                    (<a class="source-link" href="https://wol.jw.org/es/wol/b/r4/lp-s/nwtsty/E/2026/24/10#study=discover&v=24010021" target="_blank" rel="noopener noreferrer">Jer 10:21</a>; 
+                    <a class="source-link" href="https://wol.jw.org/es/wol/d/r4/lp-s/2010777#h=13" target="_blank" rel="noopener noreferrer">jr 133, 134 párrs. 11, 12</a>)
+                </div>
+                <div class="assignment-time">(10 mins.)</div>
+            </div>
+            <div class="inline-assign">
+                <label>Asignado:</label> <input type="text" placeholder="Hermano">
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    </div>
+
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <div>3. Lectura de la Biblia</div>
+                <div class="inline-links">
+                    (<a class="source-link" href="https://wol.jw.org/es/wol/b/r4/lp-s/nwtsty/E/2026/24/9#study=discover&v=24009013" target="_blank" rel="noopener noreferrer">Jer 9:13-24</a>; 
+                    <a class="source-link" href="https://wol.jw.org/es/wol/d/r4/lp-s/1102018452" target="_blank" rel="noopener noreferrer">th lección 12</a>)
+                </div>
+                <div class="assignment-time">(4 mins.)</div>
+            </div>
+            <div class="inline-assign">
+                <label>Estudiante:</label> <input type="text" placeholder="Hermano">
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    </div>
+
+    <!-- SEAMOS MEJORES MAESTROS -->
+    <div class="section-header bg-ministry">Seamos mejores maestros</div>
+
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <div>4. Empiece conversaciones (Predicación Informal)</div>
+                <div class="inline-links">
+                    (<a class="source-link" href="https://wol.jw.org/es/wol/d/r4/lp-s/1102023503" target="_blank" rel="noopener noreferrer">lmd lección 3 punto 5</a>)
+                </div>
+                <div class="assignment-time">(4 mins.)</div>
+            </div>
+            <div class="inline-assign double-field">
+                <label>E:</label> <input type="text" placeholder="Estudiante" style="margin-right: 3px;">
+                <label>A:</label> <input type="text" placeholder="Ayudante">
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    </div>
+
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <div>5. Empiece conversaciones (De casa en casa)</div>
+                <div class="inline-links">
+                    (<a class="source-link" href="https://wol.jw.org/es/wol/d/r4/lp-s/1102023503" target="_blank" rel="noopener noreferrer">lmd lección 3 punto 4</a>)
+                </div>
+                <div class="assignment-time">(4 mins.)</div>
+            </div>
+            <div class="inline-assign double-field">
+                <label>E:</label> <input type="text" placeholder="Estudiante" style="margin-right: 3px;">
+                <label>A:</label> <input type="text" placeholder="Ayudante">
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    </div>
+
+    <!-- NUESTRA VIDA CRISTIANA -->
+    <div class="section-header bg-living">Nuestra vida cristiana</div>
+
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <div><a class="source-link" href="https://wol.jw.org/es/wol/d/r4/lp-s/2016448" target="_blank" rel="noopener noreferrer">Canción 48: Caminemos diariamente con Jehová</a> — <a class="source-link" href="https://wol.jw.org/es/wol/b/r4/lp-s/nwtsty/E/2026/33/6#study=discover&v=33006008" target="_blank" rel="noopener noreferrer">Miqueas 6:8</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="livingContainer">
+        <!-- Asignación 7 original movible -->
+        <div class="assignment sortable-item">
+            <div class="assignment-title-row">
+                <div class="title-and-links">
+                    <div class="correlative-label">7. </div>
+                    <div>No nos dejemos engañar, apoyemos el Reino de Dios</div>
+                    <div class="inline-links">
+                        (<a class="source-link" href="https://wol.jw.org/es/wol/b/r4/lp-s/nwtsty/E/2026/24/10#study=discover&v=24010023" target="_blank" rel="noopener noreferrer">Jer. 10:23</a>; Análisis con el auditorio)
+                    </div>
+                    <div class="assignment-time">(15 mins.)</div>
+                </div>
+                <div class="inline-assign" style="display:flex; align-items:center;">
+                    <label>Asignado:</label> <input type="text" placeholder="Hermano">
+                    <div class="order-actions no-print">
+                        <button class="btn-sort" onclick="moveUp(this)">🔼</button>
+                        <button class="btn-sort" onclick="moveDown(this)">🔽</button>
+                    </div>
+                </div>
+            </div>
+            <div class="notes-area">
+                <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+            </div>
+        </div>
+
+        <!-- Asignación 8 original movible -->
+        <div class="assignment sortable-item">
+            <div class="assignment-title-row">
+                <div class="title-and-links">
+                    <div class="correlative-label">8. </div>
+                    <input type="text" class="input-title" value="Estudio bíblico de la congregación" placeholder="Título...">
+                    <div>
+                        (<input type="text" class="input-source-editable" value="lfb lecciones 96, 97" placeholder="Fuente / Lección...">)
+                    </div>
+                    <input type="text" class="input-time" value="(30 mins.)" placeholder="( mins.)">
+                </div>
+                <div class="inline-assign double-field" style="display:flex; align-items:center;">
+                    <label>C:</label> <input type="text" placeholder="Conductor" style="margin-right: 3px;">
+                    <label>L:</label> <input type="text" placeholder="Lector">
+                    <div class="order-actions no-print">
+                        <button class="btn-sort" onclick="moveUp(this)">🔼</button>
+                        <button class="btn-sort" onclick="moveDown(this)">🔽</button>
+                    </div>
+                </div>
+            </div>
+            <div class="notes-area">
+                <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTÓN 3D PARA CREAR NUEVA ASIGNACIÓN -->
+    <div class="add-btn-container no-print">
+        <button class="btn-add-custom" onclick="addNewAssignment()" title="Añadir intervención personalizada">+</button>
+    </div>
+
+    <!-- ORACIÓN FINAL -->
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <div><a class="source-link" href="https://wol.jw.org/es/wol/d/r4/lp-s/2016458" target="_blank" rel="noopener noreferrer">Canción 58: Atentos a la Palabra de Dios</a> — <a class="source-link" href="https://wol.jw.org/es/wol/b/r4/lp-s/nwtsty/E/2026/42/11#study=discover&v=42011028" target="_blank" rel="noopener noreferrer">Lucas 11:28</a></div>
+                <div class="assignment-time">(3 mins.)</div>
+            </div>
+            <div class="inline-assign">
+                <label>Oración:</label> <input type="text" placeholder="Hermano">
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function toggleDropdown() {
+    document.getElementById("weeksDropdown").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.btn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    for (var i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+function selectWeek(weekName) {
+    alert("Simulación: Has seleccionado la semana '" + weekName + "'. La aplicación cargará automáticamente los datos correspondientes en esta misma estructura.");
+}
+
+function autoGrow(element) {
+    element.style.height = "40px"; 
+    if (element.scrollHeight > 115) {
+        element.style.height = "115px";
+    } else {
+        element.style.height = (element.scrollHeight) + "px";
+    }
+}
+
+function recalculateNumbers() {
+    const container = document.getElementById("livingContainer");
+    const items = container.getElementsByClassName("sortable-item");
+    for (let i = 0; i < items.length; i++) {
+        let currentNum = 7 + i;
+        const label = items[i].getElementsByClassName("correlative-label")[0];
+        if (label) {
+            label.innerText = currentNum + ". ";
+        }
+    }
+}
+
+function moveUp(button) {
+    const item = button.closest('.sortable-item');
+    const previous = item.previousElementSibling;
+    if (previous && previous.classList.contains('sortable-item')) {
+        item.parentNode.insertBefore(item, previous);
+        recalculateNumbers();
+    }
+}
+
+function moveDown(button) {
+    const item = button.closest('.sortable-item');
+    const next = item.nextElementSibling;
+    if (next && next.classList.contains('sortable-item')) {
+        item.parentNode.insertBefore(next, item);
+        recalculateNumbers();
+    }
+}
+
+function deleteAssignment(button) {
+    const item = button.closest('.sortable-item');
+    if (item) {
+        item.remove();
+        recalculateNumbers();
+    }
+}
+
+function addNewAssignment() {
+    const container = document.getElementById("livingContainer");
+    const items = container.getElementsByClassName("sortable-item");
+    let nextNum = 7 + items.length;
+
+    const newDiv = document.createElement("div");
+    newDiv.className = "assignment sortable-item";
+
+    newDiv.innerHTML = `
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <div class="correlative-label">${nextNum}. </div>
+                <input type="text" class="input-title" placeholder="Título del tema..." value="" style="margin-right: 5px;">
+                <input type="text" class="input-time" placeholder="( mins.)" value="( mins.)">
+            </div>
+            <div class="inline-assign" style="display:flex; align-items:center;">
+                <label>Asignado:</label> 
+                <input type="text" placeholder="Hermano">
+                <div class="order-actions no-print">
+                    <button class="btn-sort" onclick="moveUp(this)">🔼</button>
+                    <button class="btn-sort" onclick="moveDown(this)">🔽</button>
+                    <button class="btn-sort btn-delete" onclick="deleteAssignment(this)" title="Eliminar intervención">❌</button>
+                </div>
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    `;
+
+    container.appendChild(newDiv);
+    recalculateNumbers();
+}
+</script>
+
+</body>
+</html>
