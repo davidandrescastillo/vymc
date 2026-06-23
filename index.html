@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presidencia</title>
+    
+    <!-- ÍCONO DE LA APP INCRUSTADO -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0i5MTIiIGhlaWdodD0iNTEyIiByeD0iMTEwIiBmaWxsPSIjZThlYmVkIi8+CiAgPGc+CiAgICA8IS0tIEZyYW5qYSBTdXBlcmlvcjogTW9yYWRvIC0tPgogICAgPHBhdGggZD0iTTIxMCAxMTBoMTA2YzYwIDAgOTYgMzAgOTYgODRzPSIzNiA4NC05NiA4NEgtMjEwVjExMHptNjIgMTEwaDQ0YzM2IDAgNTQtMTQgNTQtNDRzPSIxOC00NC01NC00NGgtNDR2ODh6IiBmaWxsPSIjNGEzYjY4Ii8+CiAgICA8IS0tIEZyYW5qYSBNZWRpYTogRG9yYWRvIC0tPgogICAgPHBhdGggZD0iTTIxMCAyNzhoMTA2YzYwIDAgOTYtMzAgOTYtODRIMSgyeTg0aDQ2eiIgZmlsbD0iI2MxN2ExMCIvPgogICAgPHBhdGggZD0iTTI3MiAyNzhoNDRjMzYgMCA1NC0xNCA1NC00NEg1MHY0NHoiIGZpbGw9IiNjMTdhMTAiLz4KICAgIDwhLS0gRnJhbmphIEluZmVyaW9yOiBSb2ppem8gLS0+CiAgICA8cmVjdCB4PSIyMTAiIHk9IjI3OCIgd2lkdGg9IjYyIiBoZWlnaHQ9IjEyNCIgZmlsbD0iIzkyMjcyNSIvPgogIDwvZz4KPC9zdmc+" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMCIgZmlsbD0iI2U4ZWJlZCIvPgogIDxnPgogICAgPCEtLSBGcmFuamEgU3VwZXJpb3I6IE1vcmFkbyAtLT4KICAgIDxwYXRoIGQ9Ik0yMTAgMTEwaDEwNmM2MCAwIDk2IDMwIDk2IDg0cz0iMzYgODQtOTYgODRILTIxMFYxMTB6bTYyIDExMGg0NGMzNiAwIDU0LTE0IDU0LTQ0cz0iMTgtNDQtNTQtNDRoLTQ0djg4eiIgZmlsbD0iIzRhM2I2OCIvPgogICAgPCEtLSBGcmFuamEgTWVkaWE6IERvcmFkbyAtLT4KICAgIDxwYXRoIGQ9Ik0yMTAgMjc4aDEwNmM2MCAwIDk2LTMwIDk2LTg0SDE4MnY4NGg0NnoiIGZpbGw9IiNjMTdhMTAiLz46CiAgICA8cGF0aCBkPSJNMjcyIDI3OGg0NGMzNiAwIDU0LTE0IDU0LTQ0SDUwdjQ0eiIgZmlsbD0iI2MxN2ExMCIvPgogICAgPCEtLSBGcmFuamEgSW5mZXJpb3I6IFJvaml6byAtLT4KICAgIDxyZWN0IHg9IjIxMCIgeT0iMjc4IiB3aWR0aD0iNjIiIGhlaWdodD0iMTI0IiBmaWxsPSIjOTIyNzI1Ii8+CiAgPC9nPgo8L3N2Zz4=" />
+
+    <style>
+        :root {
+            --primary-color: #4a3b68;
+            --highlight-color: #d9381e; 
+            --treasures-color: #5b6770;
+            --ministry-color: #c17a10;
+            --living-color: #922725;
+            --bg-color: #f7f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1d5db;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .highlight-title {
+            color: var(--highlight-color);
+            font-size: 22px; 
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .dropdown {
+            display: inline-block;
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 260px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            z-index: 10;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            margin-top: 5px;
+        }
+
+        .dropdown-content .month-group {
+            background-color: #f3f4f6;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 10px 12px;
+            text-decoration: none;
+            display: block;
+            font-size: 13px;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .show { display: block; }
+
+        .section-header {
+            color: white;
+            padding: 6px 12px;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            border-radius: 2px;
+        }
+
+        .bg-treasures { background-color: var(--treasures-color); margin-top: 15px; }
+        .bg-ministry { background-color: var(--ministry-color); }
+        .bg-living { background-color: var(--living-color); }
+
+        .assignment {
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+        }
+
+        .assignment:last-child { border-bottom: none; }
+
+        .assignment-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-weight: bold;
+            font-size: 14.5px;
+            margin-bottom: 2px;
+        }
+
+        .assignment-title-row.stacked-fields {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 6px;
+        }
+
+        .title-and-links {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+            min-width: 0;
+        }
+
+        /* CAMPO EDITABLE OPTIMIZADO: Ocupa todo el largo de la frase sin cortarse */
+        .input-title {
+            font-family: inherit;
+            font-size: 14.5px;
+            font-weight: bold;
+            border: 1px solid transparent;
+            background: transparent;
+            padding: 2px;
+            flex: 1;
+            min-width: 320px;
+            color: #333;
+        }
+        .input-title:hover, .input-title:focus {
+            border-color: var(--border-color);
+            background: #fff;
+        }
+
+        .input-song {
+            font-family: inherit;
+            font-size: 14.5px;
+            font-weight: bold;
+            border: 1px solid transparent;
+            background: transparent;
+            padding: 2px;
+            width: 100%;
+            color: #333;
+        }
+        .input-song:hover, .input-song:focus {
+            border-color: var(--border-color);
+            background: #fff;
+        }
+
+        .inline-links {
+            font-size: 12px;
+            font-weight: normal;
+            font-style: italic;
+            color: #666;
+        }
+
+        .assignment-time { 
+            white-space: nowrap; 
+            color: #444; 
+            font-size: 13.5px; 
+            font-weight: bold;
+            margin-left: 2px;
+        }
+
+        .input-source-editable {
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: normal;
+            font-style: italic;
+            color: #666;
+            border: 1px solid transparent;
+            background: transparent;
+            padding: 2px;
+            width: 140px;
+        }
+        .input-source-editable:hover, .input-source-editable:focus {
+            border-color: var(--border-color);
+            background: #fff;
+        }
+
+        .input-time {
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: bold;
+            border: 1px solid transparent;
+            background: transparent;
+            padding: 2px;
+            width: 75px;
+            color: #444;
+        }
+        .input-time:hover, .input-time:focus {
+            border-color: var(--border-color);
+            background: #fff;
+        }
+
+        .assignment-fields-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .inline-assign {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            min-width: 200px;
+        }
+
+        .inline-assign.double-field {
+            min-width: 290px;
+        }
+
+        .inline-assign label {
+            font-size: 11.5px;
+            font-weight: bold;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .inline-assign input[type="text"] {
+            padding: 4px 6px;
+            font-size: 13px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .order-actions {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .btn-sort {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 2px 5px;
+            font-size: 11px;
+            transition: background 0.1s;
+        }
+        .btn-sort:hover { background: #e5e7eb; }
+        
+        .btn-delete {
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #dc2626;
+        }
+        .btn-delete:hover { background: #fca5a5; }
+
+        .notes-area {
+            display: flex;
+            flex-direction: column;
+            margin-top: 6px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: inherit;
+            resize: none; 
+            height: 40px;
+            max-height: 115px; 
+            overflow-y: auto; 
+        }
+
+        .add-btn-container {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .btn-add-custom {
+            background-color: var(--highlight-color);
+            color: white;
+            border: none;
+            width: 42px;
+            height: 42px;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #991b1b, 0 5px 10px rgba(0,0,0,0.15);
+            transition: all 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-add-custom:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0 #991b1b, 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Formato de Impresión Óptimo */
+        @media print {
+            @page { 
+                size: letter; 
+                margin: 10mm 10mm; 
+            }
+            
+            html, body {
+                background-color: #fff;
+                color: #000;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container { max-width: 100%; width: 100%; box-shadow: none; padding: 0; margin: 0; }
+            .controls, .no-print, .dropdown-content, .add-btn-container, .order-actions { display: none !important; }
+            
+            input[type="text"], .input-title, .input-time, .input-source-editable, .input-song { 
+                border: none; 
+                border-bottom: 1px dotted #999; 
+                border-radius: 0; 
+                padding: 2px 0; 
+                background: transparent; 
+            }
+
+            textarea { 
+                border: none;
+                border-bottom: 1px dotted #999;
+                border-radius: 0;
+                padding: 2px 0;
+                background: transparent;
+                height: 100px !important; 
+                min-height: 100px !important;
+                max-height: none !important;
+                overflow: visible !important;
+                display: block;
+            }
+            
+            .assignment { page-break-inside: avoid; }
+            .section-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="controls no-print">
+        <div class="dropdown">
+            <button class="btn" id="currentWeekBtn" onclick="toggleDropdown()">📅 Cargando Semana...</button>
+            <div id="weeksDropdown" class="dropdown-content">
+                <div class="month-group">Junio 2026</div>
+                <a href="#" onclick="loadWeekData('week1')">22-28 de junio (Actual)</a>
+                <div class="month-group">Julio 2026</div>
+                <a href="#" onclick="loadWeekData('week2')">29 de junio al 5 de julio</a>
+                <a href="#" onclick="loadWeekData('week3')">6-12 de julio</a>
+                <a href="#" onclick="loadWeekData('week4')">13-19 de julio</a>
+                <a href="#" onclick="loadWeekData('week5')">20-26 de julio</a>
+                <a href="#" onclick="loadWeekData('week6')">27 de julio al 2 de agosto</a>
+            </div>
+        </div>
+        <button class="btn btn-success" onclick="shareProgramData()">📩 Compartir</button>
+        <button class="btn btn-secondary" onclick="window.print()">🖨️ Imprimir</button>
+    </div>
+
+    <header>
+        <div class="header-top">
+            <h1>VIDA Y MINISTERIO CRISTIANO</h1>
+            <div class="highlight-title">PRESIDENCIA</div>
+        </div>
+        <div style="font-size: 14px; color: #555; margin-top: 5px;">Lectura bíblica semanal: <span id="lblWeeklyReading">...</span></div>
+    </header>
+
+    <!-- INTRODUCCIÓN -->
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="inline-assign" style="flex: 0 0 auto; max-width: 220px; margin-right: 8px;">
+                <label>Oración:</label> <input type="text" id="txtIntroOracion" placeholder="Hermano">
+            </div>
+            <div class="title-and-links">
+                <input type="text" class="input-song" id="lblSong1" value="...">
+                <div class="assignment-time" id="lblTimeIntro"></div>
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    </div>
+
+    <!-- TESOROS DE LA BIBLIA -->
+    <div class="section-header bg-treasures">Tesoros de la Biblia</div>
+
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <div id="lblT1Title">...</div>
+                <div class="inline-links" id="lblT1Source">...</div>
+                <div class="assignment-time" id="lblT1Time">...</div>
+            </div>
+            <div class="assignment-fields-row">
+                <div class="inline-assign">
+                    <label>Asignado:</label> <input type="text" id="txtT1" placeholder="Hermano">
+                </div>
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    </div>
+
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <div id="lblT2Title">...</div>
+                <div class="inline-links" id="lblT2Source">...</div>
+                <div class="assignment-time" id="lblT2Time">...</div>
+            </div>
+            <div class="assignment-fields-row">
+                <div class="inline-assign">
+                    <label>Asignado:</label> <input type="text" id="txtT2" placeholder="Hermano">
+                </div>
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    </div>
+
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <div id="lblT3Title">...</div>
+                <div class="inline-links" id="lblT3Source">...</div>
+                <div class="assignment-time" id="lblT3Time">...</div>
+            </div>
+            <div class="assignment-fields-row">
+                <div class="inline-assign">
+                    <label>Estudiante:</label> <input type="text" id="txtT3" placeholder="Hermano">
+                </div>
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    </div>
+
+    <!-- SEAMOS MEJORES MAESTROS -->
+    <div class="section-header bg-ministry">Seamos mejores maestros</div>
+    <div id="ministryContainer"></div>
+    
+    <div class="add-btn-container no-print">
+        <button class="btn-add-custom" onclick="addNewMinistryAssignment()" title="Añadir intervención de estudiante" style="background-color: var(--ministry-color); box-shadow: 0 4px 0 #7c4f0b;">+</button>
+    </div>
+
+    <!-- NUESTRA VIDA CRISTIANA -->
+    <div class="section-header bg-living">Nuestra vida cristiana</div>
+
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <input type="text" class="input-song" id="lblSong2" value="...">
+            </div>
+        </div>
+    </div>
+
+    <div id="livingContainer"></div>
+
+    <div class="add-btn-container no-print">
+        <button class="btn-add-custom" onclick="addNewLivingAssignment()" title="Añadir intervención de la vida cristiana">+</button>
+    </div>
+
+    <!-- ORACIÓN FINAL -->
+    <div class="assignment">
+        <div class="assignment-title-row">
+            <div class="title-and-links">
+                <input type="text" class="input-song" id="lblSong3" value="...">
+                <div class="assignment-time" id="lblTimeOutro">...</div>
+            </div>
+            <div class="assignment-fields-row">
+                <div class="inline-assign">
+                    <label>Oración:</label> <input type="text" id="txtOutroOracion" placeholder="Hermano">
+                </div>
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const programData = {
+    week1: {
+        label: "📅 22-28 DE JUNIO DE 2026 +",
+        reading: "JEREMÍAS 9, 10",
+        song1: "Canción 5: Dios es amor — 1 Juan 4:8",
+        timeIntro: "",
+        t1Title: "1. ¿De qué presumirá usted?",
+        t1Source: "Jer 9:23; w20.07 6 párrs. 13-15; w25.05 30 párr. 14",
+        t1Time: "(10 mins.)",
+        t2Title: "2. Busquemos perlas escondidas",
+        t2Source: "Jer 10:21; jr 133, 134 párrs. 11, 12",
+        t2Time: "(10 mins.)",
+        t3Title: "3. Lectura de la Biblia",
+        t3Source: "Jer 9:13-24; th lección 12",
+        t3Time: "(4 mins.)",
+        ministry: [
+            { title: "Empiece conversaciones (Predicación Informal)", source: "lmd lección 3 punto 5", time: "(4 mins.)", double: true },
+            { title: "Empiece conversaciones (De casa en casa)", source: "lmd lección 3 punto 4", time: "(4 mins.)", double: true },
+            { title: "Haga revisitas", source: "lmd lección 12 punto 3", time: "(4 mins.)", double: true }
+        ],
+        song2: "Canción 48: Caminemos diariamente con Jehová — Miqueas 6:8",
+        living: [
+            { title: "No nos dejemos engañar, apoyemos el Reino de Dios", source: "Jer. 10:23; Análisis con el auditorio", time: "(15 mins.)", type: "normal" },
+            { title: "Estudio bíblico de la congregación", source: "lfb lecciones 96, 97", time: "(30 mins.)", type: "bibleStudy" }
+        ],
+        song3: "Canción 58: Atentos a la Palabra de Dios — Lucas 11:28",
+        timeOutro: "(3 mins.)"
+    },
+    week2: {
+        label: "📅 29 DE JUNIO AL 5 DE JULIO +",
+        reading: "JEREMÍAS 11, 12",
+        song1: "Canción 119: Alabemos a Jehová por su Reino — Apocalipsis 11:15",
+        timeIntro: "",
+        t1Title: "1. Jehová recuerda su pacto",
+        t1Source: "Jer 11:1-8; w19.10 4 párrs. 5-7",
+        t1Time: "(10 mins.)",
+        t2Title: "2. Busquemos perlas escondidas",
+        t2Source: "Jer 12:5; w16.03 2 párrs. 8-10",
+        t2Time: "(10 mins.)",
+        t3Title: "3. Lectura de la Biblia",
+        t3Source: "Jer 11:9-17; th lección 2",
+        t3Time: "(4 mins.)",
+        ministry: [
+            { title: "Haga revisitas", source: "lmd lección 4 punto 3", time: "(4 mins.)", double: true },
+            { title: "Explique sus creencias", source: "lmd lección 5 punto 4", time: "(4 mins.)", double: true }
+        ],
+        song2: "Canción 35: Alabemos al Primogénito de Dios — Hebreos 1:6",
+        living: [
+            { title: "Necesidades de la congregación", source: "Análisis con el auditorio", time: "(15 mins.)", type: "normal" },
+            { title: "Estudio bíblico de la congregación", source: "lfb lección 98", time: "(30 mins.)", type: "bibleStudy" }
+        ],
+        song3: "Canción 58: Atentos a la Palabra de Dios — Lucas 11:28",
+        timeOutro: "(3 mins.)"
+    },
+    week3: {
+        label: "📅 6-12 DE JULIO DE 2026 +",
+        reading: "JEREMÍAS 13, 14",
+        song1: "Canción 24: Mantengamos la vista en el premio — Rut 2:12",
+        timeIntro: "",
+        t1Title: "1. El cinturón de lino podrido",
+        t1Source: "Jer 13:1-11; w21.04 5 párrs. 9-11",
+        t1Time: "(10 mins.)",
+        t2Title: "2. Busquemos perlas escondidas",
+        t2Source: "Jer 14:14; w18.09 3 párrs. 12-14",
+        t2Time: "(10 mins.)",
+        t3Title: "3. Lectura de la Biblia",
+        t3Source: "Jer 13:12-22; th lección 5",
+        t3Time: "(4 mins.)",
+        ministry: [
+            { title: "Empiece conversaciones", source: "lmd lección 6 punto 1", time: "(4 mins.)", double: true },
+            { title: "Haga revisitas", source: "lmd lección 6 punto 2", time: "(4 mins.)", double: true }
+        ],
+        song2: "Canción 76: Cómo nos ven Jehová y Jesús — Lucas 12:4",
+        living: [
+            { title: "Logros de la organización", source: "Análisis mediante video", time: "(15 mins.)", type: "normal" },
+            { title: "Estudio bíblico de la congregación", source: "lfb lección 99", time: "(30 mins.)", type: "bibleStudy" }
+        ],
+        song3: "Canción 58: Atentos a la Palabra de Dios — Lucas 11:28",
+        timeOutro: "(3 mins.)"
+    },
+    week4: {
+        label: "📅 13-19 DE JULIO DE 2026 +",
+        reading: "JEREMÍAS 15, 16",
+        song1: "Canción 88: Jehová premia la hospitalidad — Pedro 4:9",
+        timeIntro: "",
+        t1Title: "1. Encontré tus palabras y me alimenté de ellas",
+        t1Source: "Jer 15:16; w22.06 6 párrs. 12-14",
+        t1Time: "(10 mins.)",
+        t2Title: "2. Busquemos perlas escondidas",
+        t2Source: "Jer 16:16; w19.03 2 párrs. 4-6",
+        t1Time: "(10 mins.)",
+        t3Title: "3. Lectura de la Biblia",
+        t3Source: "Jer 15:1-9; th lección 8",
+        t3Time: "(4 mins.)",
+        ministry: [
+            { title: "Haga revisitas", source: "lmd lección 7 punto 4", time: "(4 mins.)", double: true },
+            { title: "Explique sus creencias", source: "lmd lección 8 punto 3", time: "(4 mins.)", double: true }
+        ],
+        song2: "Canción 141: Busquemos la paz — Salmo 34:14",
+        living: [
+            { title: "Mantengamos el gozo a pesar de la oposición", source: "Jer. 15:15; Análisis con el auditorio", time: "(15 mins.)", type: "normal" },
+            { title: "Estudio bíblico de la congregación", source: "lfb lección 100", time: "(30 mins.)", type: "bibleStudy" }
+        ],
+        song3: "Canción 58: Atentos a la Palabra de Dios — Lucas 11:28",
+        timeOutro: "(3 mins.)"
+    },
+    week5: {
+        label: "📅 20-26 DE JULIO DE 2026 +",
+        reading: "JEREMÍAS 17, 18",
+        song1: "Canción 3: Jehová es nuestra fuerza — Salmo 28:7",
+        timeIntro: "",
+        t1Title: "1. Confiemos plenamente en Jehová",
+        t1Source: "Jer 17:5-8; w23.01 4 párrs. 8-10",
+        t1Time: "(10 mins.)",
+        t2Title: "2. Busquemos perlas escondidas",
+        t2Source: "Jer 18:6; w20.09 3 párrs. 15-17",
+        t2Time: "(10 mins.)",
+        t3Title: "3. Lectura de la Biblia",
+        t3Source: "Jer 17:19-27; th lección 10",
+        t3Time: "(4 mins.)",
+        ministry: [
+            { title: "Empiece conversaciones", source: "lmd lección 9 punto 2", time: "(4 mins.)", double: true },
+            { title: "Haga revisitas", source: "lmd lección 10 punto 1", time: "(4 mins.)", double: true }
+        ],
+        song2: "Canción 54: Tengamos fe — Hebreos 11:1",
+        living: [
+            { title: "El corazón es traicionero", source: "Jer. 17:9; Análisis con el auditorio", time: "(15 mins.)", type: "normal" },
+            { title: "Estudio bíblico de la congregación", source: "lfb lección 101", time: "(30 mins.)", type: "bibleStudy" }
+        ],
+        song3: "Canción 58: Atentos a la Palabra de Dios — Lucas 11:28",
+        timeOutro: "(3 mins.)"
+    },
+    week6: {
+        label: "📅 27 DE JULIO AL 2 DE AGOSTO +",
+        reading: "JEREMÍAS 19, 20",
+        song1: "Canción 92: Prediquemos a todo tipo de personas — 1 Timoteo 2:4",
+        timeIntro: "",
+        t1Title: "1. La palabra de Jehová era como un fuego ardiente",
+        t1Source: "Jer 20:9; w22.09 5 párrs. 11-13",
+        t1Time: "(10 mins.)",
+        t2Title: "2. Busquemos perlas escondidas",
+        t2Source: "Jer 19:5; w19.04 2 párrs. 7-9",
+        t2Time: "(10 mins.)",
+        t3Title: "3. Lectura de la Biblia",
+        t3Source: "Jer 20:1-11; th lección 11",
+        t3Time: "(4 mins.)",
+        ministry: [
+            { title: "Explique sus creencias", source: "lmd lección 11 punto 3", time: "(4 mins.)", double: true },
+            { title: "Haga discípulos", source: "lmd lección 12 punto 4", time: "(4 mins.)", double: true },
+            { title: "Haga revisitas", source: "th lección 15", time: "(3 mins.)", double: true }
+        ],
+        song2: "Canción 104: Esforcémonos por ser santos — 1 Pedro 1:16",
+        living: [
+            { title: "Jehová está conmigo como un guerrero imponente", source: "Jer. 20:11; Análisis con el auditorio", time: "(15 mins.)", type: "normal" },
+            { title: "Estudio bíblico de la congregación", source: "lfb lección 102 y repaso", time: "(30 mins.)", type: "bibleStudy" }
+        ],
+        song3: "Canción 58: Atentos a la Palabra de Dios — Lucas 11:28",
+        timeOutro: "(3 mins.)"
+    }
+};
+
+function loadWeekData(weekKey) {
+    const data = programData[weekKey];
+    if (!data) return;
+
+    document.getElementById("currentWeekBtn").innerText = data.label;
+    document.getElementById("lblWeeklyReading").innerText = data.reading;
+    document.getElementById("lblSong1").value = data.song1;
+    document.getElementById("lblTimeIntro").innerText = data.timeIntro;
+
+    document.getElementById("lblT1Title").innerText = data.t1Title;
+    document.getElementById("lblT1Source").innerText = data.t1Source;
+    document.getElementById("lblT1Time").innerText = data.t1Time;
+    document.getElementById("lblT2Title").innerText = data.t2Title;
+    document.getElementById("lblT2Source").innerText = data.t2Source;
+    document.getElementById("lblT2Time").innerText = data.t2Time;
+    document.getElementById("lblT3Title").innerText = data.t3Title;
+    document.getElementById("lblT3Source").innerText = data.t3Source;
+    document.getElementById("lblT3Time").innerText = data.t3Time;
+
+    // INYECCIÓN DINÁMICA: SEAMOS MEJORES MAESTROS
+    const ministryContainer = document.getElementById("ministryContainer");
+    ministryContainer.innerHTML = ""; 
+    data.ministry.forEach((item) => {
+        const div = document.createElement("div");
+        div.className = "assignment global-sortable-item";
+        div.innerHTML = `
+            <div class="assignment-title-row stacked-fields">
+                <div class="title-and-links">
+                    <div class="global-correlative-label"></div>
+                    <input type="text" class="input-title" value="${item.title}" placeholder="Título de la asignación...">
+                    <div>(<input type="text" class="input-source-editable" value="${item.source}" placeholder="Fuente...">)</div>
+                    <input type="text" class="input-time" value="${item.time}" placeholder="( mins.)">
+                </div>
+                <div class="assignment-fields-row">
+                    ${item.double ? `
+                        <div class="inline-assign double-field">
+                            <label>E:</label> <input type="text" class="txt-m-e" placeholder="Estudiante" style="margin-right: 3px;">
+                            <label>A:</label> <input type="text" class="txt-m-a" placeholder="Ayudante">
+                        </div>
+                    ` : `
+                        <div class="inline-assign">
+                            <label>Estudiante:</label> <input type="text" class="txt-m-e" placeholder="Hermano">
+                        </div>
+                    `}
+                    <div class="order-actions no-print">
+                        <button class="btn-sort" onclick="moveUpGlobal(this)">🔼</button>
+                        <button class="btn-sort" onclick="moveDownGlobal(this)">🔽</button>
+                        <button class="btn-sort btn-delete" onclick="deleteGlobalAssignment(this)" title="Eliminar">❌</button>
+                    </div>
+                </div>
+            </div>
+            <div class="notes-area">
+                <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+            </div>
+        `;
+        ministryContainer.appendChild(div);
+    });
+
+    // INYECCIÓN DINÁMICA: NUESTRA VIDA CRISTIANA
+    document.getElementById("lblSong2").value = data.song2;
+    const livingContainer = document.getElementById("livingContainer");
+    livingContainer.innerHTML = ""; 
+    data.living.forEach((item) => {
+        const div = document.createElement("div");
+        div.className = "assignment global-sortable-item";
+
+        if (item.type === "bibleStudy") {
+            div.innerHTML = `
+                <div class="assignment-title-row stacked-fields">
+                    <div class="title-and-links">
+                        <div class="global-correlative-label"></div>
+                        <input type="text" class="input-title txt-l2-title" value="${item.title}" placeholder="Título...">
+                        <div>(<input type="text" class="input-source-editable txt-l2-source" value="${item.source}" placeholder="Fuente...">)</div>
+                        <input type="text" class="input-time txt-l2-time" value="${item.time}" placeholder="( mins.)">
+                    </div>
+                    <div class="assignment-fields-row">
+                        <div class="inline-assign double-field" style="display:flex; align-items:center;">
+                            <label>C:</label> <input type="text" class="txt-l2-c" placeholder="Conductor" style="margin-right: 3px;">
+                            <label>L:</label> <input type="text" class="txt-l2-l" placeholder="Lector">
+                        </div>
+                        <div class="order-actions no-print">
+                            <button class="btn-sort" onclick="moveUpGlobal(this)">🔼</button>
+                            <button class="btn-sort" onclick="moveDownGlobal(this)">🔽</button>
+                            <button class="btn-sort btn-delete" onclick="deleteGlobalAssignment(this)" title="Eliminar intervención">❌</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes-area">
+                    <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+                </div>
+            `;
+        } else {
+            div.innerHTML = `
+                <div class="assignment-title-row stacked-fields">
+                    <div class="title-and-links">
+                        <div class="global-correlative-label"></div>
+                        <input type="text" class="input-title" value="${item.title}" placeholder="Título...">
+                        <div>(<input type="text" class="input-source-editable" value="${item.source}" placeholder="Fuente...">)</div>
+                        <input type="text" class="input-time" value="${item.time}" placeholder="( mins.)">
+                    </div>
+                    <div class="assignment-fields-row">
+                        <div class="inline-assign">
+                            <label>Asignado:</label> <input type="text" class="txt-living-assigned" placeholder="Hermano">
+                        </div>
+                        <div class="order-actions no-print">
+                            <button class="btn-sort" onclick="moveUpGlobal(this)">🔼</button>
+                            <button class="btn-sort" onclick="moveDownGlobal(this)">🔽</button>
+                            <button class="btn-sort btn-delete" onclick="deleteGlobalAssignment(this)" title="Eliminar">❌</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes-area">
+                    <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+                </div>
+            `;
+        }
+        livingContainer.appendChild(div);
+    });
+
+    document.getElementById("lblSong3").value = data.song3;
+    document.getElementById("lblTimeOutro").innerText = data.timeOutro;
+
+    document.getElementById("txtIntroOracion").value = "";
+    document.getElementById("txtT1").value = "";
+    document.getElementById("txtT2").value = "";
+    document.getElementById("txtT3").value = "";
+    document.getElementById("txtOutroOracion").value = "";
+
+    recalculateGlobalNumbers();
+    document.getElementById("weeksDropdown").classList.remove("show");
+}
+
+function toggleDropdown() {
+    document.getElementById("weeksDropdown").classList.toggle("show");
+}
+
+function autoGrow(element) {
+    element.style.height = "40px"; 
+    if (element.scrollHeight > 115) {
+        element.style.height = "115px";
+    } else {
+        element.style.height = (element.scrollHeight) + "px";
+    }
+}
+
+function recalculateGlobalNumbers() {
+    const allItems = document.querySelectorAll('.global-sortable-item');
+    allItems.forEach((item, index) => {
+        const label = item.querySelector('.global-correlative-label');
+        if (label) {
+            label.innerText = (4 + index) + ". ";
+        }
+    });
+}
+
+function moveUpGlobal(button) {
+    const item = button.closest('.global-sortable-item');
+    const previous = item.previousElementSibling;
+    if (previous && previous.classList.contains('global-sortable-item')) {
+        item.parentNode.insertBefore(item, previous);
+        recalculateGlobalNumbers();
+    }
+}
+
+function moveDownGlobal(button) {
+    const item = button.closest('.global-sortable-item');
+    const next = item.nextElementSibling;
+    if (next && next.classList.contains('global-sortable-item')) {
+        item.parentNode.insertBefore(next, item);
+        recalculateGlobalNumbers();
+    }
+}
+
+function deleteGlobalAssignment(button) {
+    const item = button.closest('.global-sortable-item');
+    if (item) {
+        item.remove();
+        recalculateGlobalNumbers();
+    }
+}
+
+function addNewMinistryAssignment() {
+    const container = document.getElementById("ministryContainer");
+    const newDiv = document.createElement("div");
+    newDiv.className = "assignment global-sortable-item";
+    newDiv.innerHTML = `
+        <div class="assignment-title-row stacked-fields">
+            <div class="title-and-links">
+                <div class="global-correlative-label"></div>
+                <input type="text" class="input-title" placeholder="Título del tema estudiantil..." value="">
+                <div>(<input type="text" class="input-source-editable" placeholder="Fuente..." value="th lección">)</div>
+                <input type="text" class="input-time" placeholder="( mins.)" value="(4 mins.)">
+            </div>
+            <div class="assignment-fields-row">
+                <div class="inline-assign double-field">
+                    <label>E:</label> <input type="text" class="txt-m-e" placeholder="Estudiante" style="margin-right: 3px;">
+                    <label>A:</label> <input type="text" class="txt-m-a" placeholder="Ayudante">
+                </div>
+                <div class="order-actions no-print">
+                    <button class="btn-sort" onclick="moveUpGlobal(this)">🔼</button>
+                    <button class="btn-sort" onclick="moveDownGlobal(this)">🔽</button>
+                    <button class="btn-sort btn-delete" onclick="deleteGlobalAssignment(this)" title="Eliminar">❌</button>
+                </div>
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    `;
+    container.appendChild(newDiv);
+    recalculateGlobalNumbers();
+}
+
+function addNewLivingAssignment() {
+    const container = document.getElementById("livingContainer");
+    const newDiv = document.createElement("div");
+    newDiv.className = "assignment global-sortable-item";
+    newDiv.innerHTML = `
+        <div class="assignment-title-row stacked-fields">
+            <div class="title-and-links">
+                <div class="global-correlative-label"></div>
+                <input type="text" class="input-title" placeholder="Título del tema local..." value="">
+                <div>(<input type="text" class="input-source-editable" placeholder="Análisis con el auditorio" value="Análisis con el auditorio">)</div>
+                <input type="text" class="input-time" placeholder="( mins.)" value="(15 mins.)">
+            </div>
+            <div class="assignment-fields-row">
+                <div class="inline-assign">
+                    <label>Asignado:</label> <input type="text" class="txt-living-assigned" placeholder="Hermano">
+                </div>
+                <div class="order-actions no-print">
+                    <button class="btn-sort" onclick="moveUpGlobal(this)">🔼</button>
+                    <button class="btn-sort" onclick="moveDownGlobal(this)">🔽</button>
+                    <button class="btn-sort btn-delete" onclick="deleteGlobalAssignment(this)" title="Eliminar">❌</button>
+                </div>
+            </div>
+        </div>
+        <div class="notes-area">
+            <textarea placeholder="Escribe aquí tus notas..." oninput="autoGrow(this)"></textarea>
+        </div>
+    `;
+    container.appendChild(newDiv);
+    recalculateGlobalNumbers();
+}
+
+window.onload = function() {
+    loadWeekData('week1');
+};
+
+function shareProgramData() {
+    const week = document.getElementById("currentWeekBtn").innerText.replace("📅 ", "").replace(" +", "");
+    const reading = document.getElementById("lblWeeklyReading").innerText;
+    
+    const oracionIntro = document.getElementById("txtIntroOracion").value || "Por asignar";
+    const t1 = document.getElementById("txtT1").value || "Por asignar";
+    const t2 = document.getElementById("txtT2").value || "Por asignar";
+    const t3 = document.getElementById("txtT3").value || "Por asignar";
+    const oracionOutro = document.getElementById("txtOutroOracion").value || "Por asignar";
+
+    let shareText = `📋 *PROGRAMA DE LA REUNIÓN*\n🗓️ *Semana:* ${week}\n📖 *Lectura:* ${reading}\n\n`;
+    shareText += `✨ *INTRODUCCIÓN*\n🎵 ${document.getElementById("lblSong1").value}\n🙏 Oración: ${oracionIntro}\n\n`;
+    shareText += `💎 *TESOROS DE LA REUNIÓN*\n1️⃣ Tarea 1: ${t1}\n2️⃣ Perlas: ${t2}\n3️⃣ Lectura: ${t3}\n\n`;
+    
+    shareText += `🗣️ *SEAMOS MEJORES MAESTROS*\n`;
+    const maeEstudiantes = document.querySelectorAll('.txt-m-e');
+    const maeAyudantes = document.querySelectorAll('.txt-m-a');
+    maeEstudiantes.forEach((est, idx) => {
+        let hEst = est.value || "Por asignar";
+        let hAyu = maeAyudantes[idx] ? (maeAyudantes[idx].value || "Por asignar") : "";
+        shareText += `🔹 Tarea: ${hEst} ${hAyu ? '/ Ayudante: ' + hAyu : ''}\n`;
+    });
+    
+    shareText += `\n🎵 ${document.getElementById("lblSong2").value}\n\n🕺 *NUESTRA VIDA CRISTIANA*\n`;
+    const livTitles = document.querySelectorAll('.global-sortable-item .input-title');
+    const livAssigned = document.querySelectorAll('.txt-living-assigned');
+    
+    livAssigned.forEach((item, idx) => {
+        let t = livTitles[idx] ? livTitles[idx].value : "Tema";
+        shareText += `🔹 ${t}: ${item.value || "Por asignar"}\n`;
+    });
+    
+    const bsC = document.querySelector('.txt-l2-c');
+    const bsL = document.querySelector('.txt-l2-l');
+    if (bsC) {
+        shareText += `📖 Estudio Bíblico: Conductor: ${bsC.value || "Por asignar"} / Lector: ${bsL.value || "Por asignar"}\n`;
+    }
+
+    shareText += `\n🎵 ${document.getElementById("lblSong3").value}\n🙏 Oración final: ${oracionOutro}`;
+
+    if (navigator.share) {
+        navigator.share({
+            title: 'Programa Presidencia',
+            text: shareText
+        }).catch(err => console.log(err));
+    } else {
+        navigator.clipboard.writeText(shareText).then(() => {
+            alert("¡Programa copiado al portapapeles! Ya puedes pegarlo directamente en WhatsApp o Correo.");
+        });
+    }
+}
+</script>
+
+</body>
+</html>
