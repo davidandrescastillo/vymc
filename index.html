@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presidencia</title>
+<style>
+:root {
+  --primary:#4a3b68; --primary-light:#6b5a90; --highlight:#d9381e;
+  --treasures:#5b6770; --ministry:#c17a10; --living:#922725; --anuncios:#3b5fa0;
+  --bg:#f4f5f7; --surface:#fff; --surface-alt:#f8f9fb;
+  --border:#dde1e7; --text:#1e2128; --text-muted:#6b7280;
+  --input-bg:#fff; --shadow:0 2px 8px rgba(0,0,0,.08);
+  --radius:10px; --radius-sm:6px;
+}
+[data-theme="dark"] {
+  --bg:#111318; --surface:#1c1f27; --surface-alt:#23272f;
+  --border:#303540; --text:#e8ecf2; --text-muted:#8b95a3;
+  --input-bg:#23272f; --shadow:0 2px 12px rgba(0,0,0,.4);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.5;padding:16px;
+  font-size:14px;transition:background .25s,color .25s}
+
+.container{max-width:980px;margin:0 auto;background:var(--surface);
+  padding:26px 30px;border-radius:var(--radius);box-shadow:var(--shadow)}
+
+/* TOOLBAR */
+.toolbar{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 11px;
+  border-radius:var(--radius-sm);border:1px solid var(--border);
+  background:var(--surface-alt);color:var(--text);font-size:12px;font-weight:500;
+  cursor:pointer;transition:background .15s,transform .1s;white-space:nowrap}
+.btn:hover{background:var(--border)}.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn-primary:hover{background:var(--primary-light)}
+.btn-success{background:#15803d;color:#fff;border-color:#15803d}
+.btn-success:hover{background:#166534}
+
+/* DROPDOWN */
+.dropdown{position:relative}
+.dropdown-menu{display:none;position:absolute;top:calc(100% + 5px);left:0;
+  min-width:250px;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-sm);box-shadow:var(--shadow);z-index:200;overflow:hidden}
+.dropdown-menu.open{display:block}
+.dropdown-group{padding:5px 12px 3px;font-size:10px;font-weight:700;
+  letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase;background:var(--surface-alt)}
+.dropdown-menu a{display:block;padding:8px 14px;font-size:13px;color:var(--text);text-decoration:none}
+.dropdown-menu a:hover{background:var(--surface-alt);color:var(--primary)}
+.dropdown-menu a.wk-active{font-weight:700;color:var(--primary)}
+
+.theme-toggle{padding:6px 9px;font-size:14px;background:var(--surface-alt);
+  border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer}
+.theme-toggle:hover{background:var(--border)}
+
+/* FONT CONTROL */
+.font-ctrl{display:flex;align-items:center;gap:4px;border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:3px 8px;background:var(--surface-alt)}
+.font-ctrl input[type=range]{width:60px;cursor:pointer;accent-color:var(--primary)}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
+  z-index:9998;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--surface);border-radius:12px;padding:24px;
+  width:90%;max-width:500px;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.modal-box h3{font-size:15px;font-weight:700;margin-bottom:8px}
+.modal-box p{font-size:12.5px;color:var(--text-muted);margin-bottom:14px;line-height:1.55}
+.modal-box code{background:var(--surface-alt);padding:1px 5px;border-radius:3px;font-size:11.5px}
+.modal-input{width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:6px;
+  font-size:13px;background:var(--input-bg);color:var(--text);margin-bottom:10px;
+  outline:none;font-family:inherit}
+.modal-input:focus{border-color:var(--primary)}
+.modal-status{font-size:12px;color:var(--text-muted);margin-bottom:10px;min-height:18px}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end}
+
+/* HEADER */
+header{border-bottom:3px solid var(--primary);padding-bottom:12px;margin-bottom:18px}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+h1{color:var(--primary);font-size:18px;font-weight:700;letter-spacing:.02em}
+.highlight-title{color:var(--highlight);font-size:18px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;text-align:center}
+.weekly-reading{margin-top:8px;font-size:13px;color:var(--text-muted);
+  display:flex;align-items:center;flex-wrap:wrap;gap:14px}
+.weekly-reading .val{color:var(--text);font-weight:600}
+.lbl-sm{font-size:11px;font-weight:700;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.inline-inp{font-family:inherit;font-size:13px;font-weight:600;color:var(--text);
+  border:none;border-bottom:1px dashed var(--border);background:transparent;
+  padding:1px 4px;outline:none}
+.inline-inp::placeholder{color:var(--text-muted);font-weight:400}
+.pres-block{display:flex;align-items:center;gap:6px;margin-left:auto}
+
+/* SECTION HEADERS */
+.sec-hdr{color:#fff;padding:7px 12px;font-weight:700;font-size:13px;
+  text-transform:uppercase;letter-spacing:.05em;border-radius:var(--radius-sm);
+  margin:20px 0 10px;display:flex;align-items:center;gap:8px}
+.sec-hdr .sec-title{flex:1}
+.bg-treasures{background:var(--treasures)}
+.bg-ministry{background:var(--ministry)}
+.bg-living{background:var(--living)}
+.bg-anuncios{background:var(--anuncios)}
+.bg-header{background:var(--primary)}
+
+/* BTN E */
+.btn-e{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.5);
+  color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;
+  cursor:pointer;transition:background .15s;line-height:1.5;flex-shrink:0}
+.btn-e:hover{background:rgba(255,255,255,.4)}
+
+/* ASSIGNMENT */
+.assignment{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:11px 13px;margin-bottom:8px}
+.assignment:hover{box-shadow:var(--shadow)}
+
+/* TITLE ROW — same line: num + title + time + crono + actions */
+.asgn-row{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;min-width:0}
+.asgn-num{font-weight:700;font-size:14px;color:var(--text-muted);white-space:nowrap;flex-shrink:0}
+.asgn-title{font-weight:700;font-size:14px;flex:1;min-width:0;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.asgn-time{font-weight:600;color:var(--text-muted);font-size:12px;white-space:nowrap;flex-shrink:0}
+.asgn-src{font-style:italic;color:var(--text-muted);font-size:12px;margin-top:3px}
+
+/* Ministry title input — 75% width so time fits same line */
+.mi-title-inp{font-family:inherit;font-size:13px;font-weight:600;
+  border:1px solid var(--border);border-radius:4px;background:var(--input-bg);
+  color:var(--text);padding:3px 7px;width:75%;min-width:0;flex-shrink:1}
+.mi-title-inp:focus{outline:none;border-color:var(--primary)}
+.mi-time-inp{font-family:inherit;font-size:12px;font-weight:600;
+  border:1px solid var(--border);border-radius:4px;background:var(--input-bg);
+  color:var(--text-muted);padding:3px 6px;width:70px;flex-shrink:0}
+.mi-time-inp:focus{outline:none;border-color:var(--primary)}
+
+/* CRONO */
+.crono{display:flex;align-items:center;gap:3px;flex-shrink:0;margin-left:12px}
+.crono-disp{font-size:12px;font-weight:700;color:var(--primary);min-width:38px}
+.crono-btn{width:21px;height:21px;border-radius:4px;border:1px solid var(--border);
+  background:var(--surface-alt);color:var(--text);cursor:pointer;font-size:10px;
+  display:flex;align-items:center;justify-content:center;transition:background .12s}
+.crono-btn:hover{background:var(--border)}
+
+/* ORDER ACTIONS — separated from crono */
+.order-actions{display:flex;gap:3px;flex-shrink:0;margin-left:10px}
+.btn-icon{width:24px;height:24px;border:1px solid var(--border);background:var(--surface-alt);
+  border-radius:4px;cursor:pointer;font-size:10px;display:flex;align-items:center;
+  justify-content:center;transition:background .12s}
+.btn-icon:hover{background:var(--border)}
+.btn-icon.del{background:#fee2e2;border-color:#fca5a5}
+.btn-icon.del:hover{background:#fca5a5}
+
+/* PERSON ROW */
+.person-row{display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap}
+.person-inp{padding:4px 8px;font-size:13px;border:1px solid var(--border);
+  border-radius:4px;background:var(--input-bg);color:var(--text);
+  font-family:inherit;width:165px;transition:border-color .15s}
+.person-inp:focus{outline:none;border-color:var(--primary);
+  box-shadow:0 0 0 2px rgba(74,59,104,.15)}
+
+/* NOTES */
+.notes-wrap{margin-top:7px}
+.notes-wrap textarea{width:100%;padding:6px 9px;border:1px solid transparent;
+  border-radius:4px;font-size:13px;font-family:inherit;background:transparent;
+  color:var(--text);resize:none;height:36px;max-height:110px;overflow-y:auto;
+  transition:border-color .15s,background .15s}
+.notes-wrap textarea:focus,.notes-wrap textarea:not(:placeholder-shown){
+  border-color:var(--border);background:var(--surface-alt)}
+.notes-wrap textarea:hover{border-color:var(--border);background:var(--surface-alt)}
+
+/* SONG */
+.song-inp{font-family:inherit;font-size:14px;font-weight:600;
+  border:1px solid transparent;background:transparent;color:var(--text);
+  padding:2px 5px;border-radius:4px;width:100%;transition:border-color .15s,background .15s}
+.song-inp:hover,.song-inp:focus{border-color:var(--border);background:var(--input-bg);outline:none}
+
+/* ADD BTN */
+.add-btn-wrap{display:flex;justify-content:center;margin:8px 0 4px}
+.btn-add{width:34px;height:34px;border-radius:50%;border:none;color:#fff;
+  font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 3px 8px rgba(0,0,0,.2);transition:transform .1s}
+.btn-add:hover{transform:scale(1.08)}
+
+/* AUTOCOMPLETE */
+.ac-list{position:absolute;top:100%;left:0;z-index:999;background:var(--surface);
+  border:1px solid var(--border);border-radius:6px;box-shadow:var(--shadow);
+  list-style:none;margin:2px 0 0;padding:4px 0;min-width:160px;
+  max-height:140px;overflow-y:auto;display:none;font-size:13px}
+.ac-list li{padding:5px 12px;cursor:pointer}
+.ac-list li:hover,.ac-list li.active{background:var(--surface-alt)}
+
+/* TOAST */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:#1e2128;color:#fff;padding:10px 20px;border-radius:24px;
+  font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);z-index:9999;pointer-events:none}
+#toast.show{transform:translateX(-50%) translateY(0)}
+#toast.error{background:#dc2626}#toast.success{background:#15803d}
+#saveInd{font-size:11px;color:var(--text-muted);opacity:0;transition:opacity .4s}
+#saveInd.visible{opacity:1}
+
+/* PRINT */
+@media print{
+  @page{size:letter;margin:12mm 12mm}
+  html,body{background:#fff;color:#000;padding:0;margin:0;font-size:12px}
+  .container{max-width:100%;box-shadow:none;padding:0;margin:0}
+  .toolbar,.no-print,.order-actions,.add-btn-wrap,.btn-e,.crono,.modal-overlay{display:none!important}
+  header{margin-bottom:10px;page-break-after:avoid;break-after:avoid}
+  .sec-hdr{-webkit-print-color-adjust:exact;print-color-adjust:exact;
+    page-break-after:avoid;break-after:avoid;margin-top:8px!important}
+  .sec-hdr.new-page{page-break-before:always;break-before:page;margin-top:0!important}
+  .assignment{border:none;border-bottom:1px solid #ddd;border-radius:0;
+    padding:6px 0;page-break-inside:avoid;break-inside:avoid}
+  input,textarea{border:none!important;border-bottom:1px dotted #aaa!important;
+    border-radius:0!important;background:transparent!important;color:#000!important;
+    box-shadow:none!important;padding:1px 0!important}
+  textarea{height:55px!important;overflow:visible!important}
+  body.font-large .sec-hdr{page-break-before:always;break-before:page}
+  body.font-large header~.sec-hdr:first-of-type{page-break-before:auto}
+}
+@media(max-width:600px){
+  body{padding:8px}.container{padding:14px;border-radius:8px}
+  .btn{padding:6px 8px;font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- TOOLBAR -->
+<div class="toolbar no-print">
+  <div class="dropdown">
+    <button class="btn" id="weekBtn" onclick="toggleDD()">📅 Semana…</button>
+    <div id="weeksDD" class="dropdown-menu">
+      <div class="dropdown-group">Junio 2026</div>
+      <a href="#" onclick="event.preventDefault();loadWeek('w1')" data-week="w1">22–28 de junio</a>
+      <div class="dropdown-group">Julio 2026</div>
+      <a href="#" onclick="event.preventDefault();loadWeek('w2')" data-week="w2">29 jun – 5 jul</a>
+      <a href="#" onclick="event.preventDefault();loadWeek('w3')" data-week="w3">6–12 de julio</a>
+      <a href="#" onclick="event.preventDefault();loadWeek('w4')" data-week="w4">13–19 de julio</a>
+      <a href="#" onclick="event.preventDefault();loadWeek('w5')" data-week="w5">20–26 de julio</a>
+      <a href="#" onclick="event.preventDefault();loadWeek('w6')" data-week="w6">27 jul – 2 ago</a>
+    </div>
+  </div>
+  <button class="btn" onclick="openUrl()">🔗 Cargar URL</button>
+  <button class="btn btn-success" onclick="shareProgram()">📩 Compartir</button>
+  <button class="btn" onclick="exportJSON()">⬇️ Exportar</button>
+  <button class="btn" onclick="document.getElementById('impFile').click()">⬆️ Importar</button>
+  <input type="file" id="impFile" accept=".json" style="display:none" onchange="importJSON(event)">
+  <button class="btn" onclick="window.print()">🖨️ Imprimir</button>
+  <div class="font-ctrl no-print">
+    <span style="font-size:11px;font-weight:700;color:var(--text-muted)">A</span>
+    <input type="range" id="fsSlider" min="85" max="135" value="100" step="5" oninput="applyFS(this.value)">
+    <span style="font-size:15px;font-weight:700;color:var(--text-muted)">A</span>
+  </div>
+  <span id="saveInd">✓ Guardado</span>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+</div>
+
+<!-- MODAL URL -->
+<div class="modal-overlay" id="urlModal">
+  <div class="modal-box">
+    <h3>Cargar semana desde WOL</h3>
+    <p>Pega la URL de la semana de <strong>wol.jw.org</strong>. El número al final es la semana del año.<br>
+    Ej: <code>https://wol.jw.org/es/wol/meetings/r4/lp-s/2026/27</code><br><br>
+    <em>Nota: el sitio carga con JavaScript, por lo que se extraerá lo disponible del HTML estático. Si no funciona, puedes editar los campos manualmente.</em></p>
+    <input type="text" class="modal-input" id="urlInput" placeholder="https://wol.jw.org/es/wol/meetings/r4/lp-s/2026/27">
+    <div class="modal-status" id="urlStatus"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeUrl()">Cancelar</button>
+      <button class="btn btn-primary" onclick="fetchUrl()">Cargar</button>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER (exportable) -->
+<div id="expHeader">
+  <header id="secHeader">
+    <div class="header-top">
+      <div style="flex:1">
+        <h1>VIDA Y MINISTERIO CRISTIANO</h1>
+        <div style="margin-top:4px;display:flex;align-items:center;gap:6px">
+          <span class="lbl-sm">Congregación</span>
+          <input type="text" id="inCong" class="inline-inp" placeholder="Nombre de la congregación"
+            style="width:220px" oninput="localStorage.setItem('presCong',this.value)">
+        </div>
+      </div>
+      <div style="flex:1;text-align:center">
+        <div class="highlight-title">PROGRAMA PARA LA PRESIDENCIA</div>
+      </div>
+    </div>
+    <div class="weekly-reading" style="margin-top:8px">
+      <span>Lectura bíblica semanal: <span class="val" id="lblReading">…</span></span>
+      <div class="pres-block">
+        <span class="lbl-sm">Presidente</span>
+        <input type="text" id="inPres" class="inline-inp" placeholder="Nombre"
+          style="color:var(--highlight);width:150px" oninput="localStorage.setItem('presPres',this.value)">
+        <button class="btn-e no-print" style="background:var(--primary);border-color:var(--primary-light)"
+          onclick="exportJpg('expHeader','encabezado',null,'var(--primary)')">E</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- INTRODUCCIÓN -->
+  <div class="assignment">
+    <div class="asgn-row">
+      <input type="text" class="song-inp" id="inSong1" value="…" oninput="scheduleSave()" style="flex:1">
+    </div>
+    <div class="person-row">
+      <span class="lbl-sm">Oración</span>
+      <div style="position:relative">
+        <input type="text" class="person-inp" id="inOra1" placeholder="Hermano" oninput="scheduleSave();acI(this)">
+      </div>
+    </div>
+    <div class="notes-wrap">
+      <textarea placeholder="Notas…" oninput="autoG(this);scheduleSave()"></textarea>
+    </div>
+  </div>
+</div><!-- /expHeader -->
+
+<!-- TESOROS -->
+<div id="expTesoros">
+  <div class="sec-hdr bg-treasures" id="hdrTesoros">
+    <span class="sec-title">Tesoros de la Biblia</span>
+    <button class="btn-e no-print" onclick="exportJpg('expTesoros','tesoros_de_la_biblia','hdrTesoros','var(--treasures)')">E</button>
+  </div>
+
+  <div class="assignment">
+    <div class="asgn-row">
+      <span class="asgn-num">1.</span>
+      <span class="asgn-title" id="lblT1"></span>
+      <span class="asgn-time" id="lblT1t"></span>
+      <div class="crono no-print" data-s="0" data-r="0">
+        <span class="crono-disp">0:00</span>
+        <button class="crono-btn" onclick="cToggle(this)">▶</button>
+        <button class="crono-btn" onclick="cReset(this)">↺</button>
+      </div>
+    </div>
+    <div class="person-row">
+      <span class="lbl-sm">Orador</span>
+      <div style="position:relative">
+        <input type="text" class="person-inp" id="inT1" placeholder="Hermano" oninput="scheduleSave();acI(this)">
+      </div>
+    </div>
+    <div class="notes-wrap"><textarea placeholder="Notas…" oninput="autoG(this);scheduleSave()"></textarea></div>
+  </div>
+
+  <div class="assignment">
+    <div class="asgn-row">
+      <span class="asgn-num">2.</span>
+      <span class="asgn-title" id="lblT2"></span>
+      <span class="asgn-time" id="lblT2t"></span>
+      <div class="crono no-print" data-s="0" data-r="0">
+        <span class="crono-disp">0:00</span>
+        <button class="crono-btn" onclick="cToggle(this)">▶</button>
+        <button class="crono-btn" onclick="cReset(this)">↺</button>
+      </div>
+    </div>
+    <div class="person-row">
+      <span class="lbl-sm">Orador</span>
+      <div style="position:relative">
+        <input type="text" class="person-inp" id="inT2" placeholder="Hermano" oninput="scheduleSave();acI(this)">
+      </div>
+    </div>
+    <div class="notes-wrap"><textarea placeholder="Notas…" oninput="autoG(this);scheduleSave()"></textarea></div>
+  </div>
+
+  <div class="assignment">
+    <div class="asgn-row">
+      <span class="asgn-num">3.</span>
+      <span class="asgn-title" id="lblT3"></span>
+      <span class="asgn-time" id="lblT3t"></span>
+      <div class="crono no-print" data-s="0" data-r="0">
+        <span class="crono-disp">0:00</span>
+        <button class="crono-btn" onclick="cToggle(this)">▶</button>
+        <button class="crono-btn" onclick="cReset(this)">↺</button>
+      </div>
+    </div>
+    <div class="asgn-src" id="lblT3src"></div>
+    <div class="person-row">
+      <span class="lbl-sm">Estudiante</span>
+      <div style="position:relative">
+        <input type="text" class="person-inp" id="inT3" placeholder="Hermano" oninput="scheduleSave();acI(this)">
+      </div>
+    </div>
+    <div class="notes-wrap"><textarea placeholder="Notas…" oninput="autoG(this);scheduleSave()"></textarea></div>
+  </div>
+</div><!-- /expTesoros -->
+
+<!-- SEAMOS MEJORES MAESTROS -->
+<div id="expMinistry">
+  <div class="sec-hdr bg-ministry" id="hdrMin">
+    <span class="sec-title">Seamos mejores maestros</span>
+    <button class="btn-e no-print" onclick="exportJpg('expMinistry','seamos_mejores_maestros','hdrMin','var(--ministry)')">E</button>
+  </div>
+  <div id="ministryCont"></div>
+  <div class="add-btn-wrap no-print">
+    <button class="btn-add" style="background:var(--ministry)" onclick="addM()" title="Añadir">+</button>
+  </div>
+</div>
+
+<!-- VIDA CRISTIANA -->
+<div id="expLiving">
+  <div class="sec-hdr bg-living new-page" id="hdrLiv">
+    <span class="sec-title">Nuestra vida cristiana</span>
+    <button class="btn-e no-print" onclick="exportJpg('expLiving','nuestra_vida_cristiana','hdrLiv','var(--living)')">E</button>
+  </div>
+  <div class="assignment">
+    <div class="asgn-row">
+      <input type="text" class="song-inp" id="inSong2" value="…" oninput="scheduleSave()" style="flex:1">
+    </div>
+  </div>
+  <div id="livingCont"></div>
+  <div class="add-btn-wrap no-print">
+    <button class="btn-add" style="background:var(--living)" onclick="addL()" title="Añadir">+</button>
+  </div>
+  <div class="assignment">
+    <div class="asgn-row">
+      <input type="text" class="song-inp" id="inSong3" value="…" oninput="scheduleSave()" style="flex:1">
+      <span class="asgn-time" id="lblOutroT"></span>
+    </div>
+    <div class="person-row">
+      <span class="lbl-sm">Oración final</span>
+      <div style="position:relative">
+        <input type="text" class="person-inp" id="inOra2" placeholder="Hermano" oninput="scheduleSave();acI(this)">
+      </div>
+    </div>
+  </div>
+</div><!-- /expLiving -->
+
+<!-- ANUNCIOS -->
+<div class="sec-hdr bg-anuncios" style="margin-top:18px">
+  <span class="sec-title">Anuncios</span>
+</div>
+<div id="anunciosCont"></div>
+<div class="no-print" style="margin-top:8px">
+  <button class="btn" onclick="addAnuncio()">+ Agregar anuncio</button>
+</div>
+
+</div><!-- /container -->
+<div id="toast"></div>
+
+<script>
+/* ══════ DATA ══════ */
+const WD = {
+  w1:{label:'📅 22–28 JUN 2026',reading:'JEREMÍAS 9, 10',
+    s1:'Canción 5: Dios es amor — 1 Juan 4:8',
+    t1:'¿De qué presumirá usted?',t1t:'(10 min)',
+    t2:'Busquemos perlas escondidas',t2t:'(10 min)',
+    t3:'Lectura de la Biblia',t3s:'Jer 9:13-24 · th lec. 12',t3t:'(4 min)',
+    min:[{ti:'Empiece conversaciones (Predicación informal)',src:'lmd lec. 3 pt. 5',tm:'(4 min)'},
+         {ti:'Empiece conversaciones (De casa en casa)',src:'lmd lec. 3 pt. 4',tm:'(4 min)'},
+         {ti:'Haga revisitas',src:'lmd lec. 12 pt. 3',tm:'(4 min)'}],
+    s2:'Canción 48: Caminemos diariamente con Jehová — Miq 6:8',
+    liv:[{ti:'No nos dejemos engañar, apoyemos el Reino de Dios',src:'Jer 10:23 · Análisis con el auditorio',tm:'(15 min)',tp:'n'},
+         {ti:'Estudio bíblico de la congregación',src:'lfb lec. 96, 97',tm:'(30 min)',tp:'b'}],
+    s3:'Canción 58: Atentos a la Palabra de Dios — Luc 11:28',ot:'(3 min)'},
+  w2:{label:'📅 29 JUN – 5 JUL 2026',reading:'JEREMÍAS 11, 12',
+    s1:'Canción 119: Alabemos a Jehová por su Reino — Apoc 11:15',
+    t1:'Jehová recuerda su pacto',t1t:'(10 min)',
+    t2:'Busquemos perlas escondidas',t2t:'(10 min)',
+    t3:'Lectura de la Biblia',t3s:'Jer 11:9-17 · th lec. 2',t3t:'(4 min)',
+    min:[{ti:'Haga revisitas',src:'lmd lec. 4 pt. 3',tm:'(4 min)'},
+         {ti:'Explique sus creencias',src:'lmd lec. 5 pt. 4',tm:'(4 min)'}],
+    s2:'Canción 35: Alabemos al Primogénito de Dios — Heb 1:6',
+    liv:[{ti:'Necesidades de la congregación',src:'Análisis con el auditorio',tm:'(15 min)',tp:'n'},
+         {ti:'Estudio bíblico de la congregación',src:'lfb lec. 98',tm:'(30 min)',tp:'b'}],
+    s3:'Canción 58: Atentos a la Palabra de Dios — Luc 11:28',ot:'(3 min)'},
+  w3:{label:'📅 6–12 JUL 2026',reading:'JEREMÍAS 13, 14',
+    s1:'Canción 24: Mantengamos la vista en el premio — Rut 2:12',
+    t1:'El cinturón de lino podrido',t1t:'(10 min)',
+    t2:'Busquemos perlas escondidas',t2t:'(10 min)',
+    t3:'Lectura de la Biblia',t3s:'Jer 13:12-22 · th lec. 5',t3t:'(4 min)',
+    min:[{ti:'Empiece conversaciones',src:'lmd lec. 6 pt. 1',tm:'(4 min)'},
+         {ti:'Haga revisitas',src:'lmd lec. 6 pt. 2',tm:'(4 min)'}],
+    s2:'Canción 76: Cómo nos ven Jehová y Jesús — Luc 12:4',
+    liv:[{ti:'Logros de la organización',src:'Análisis mediante video',tm:'(15 min)',tp:'n'},
+         {ti:'Estudio bíblico de la congregación',src:'lfb lec. 99',tm:'(30 min)',tp:'b'}],
+    s3:'Canción 58: Atentos a la Palabra de Dios — Luc 11:28',ot:'(3 min)'},
+  w4:{label:'📅 13–19 JUL 2026',reading:'JEREMÍAS 15, 16',
+    s1:'Canción 88: Jehová premia la hospitalidad — 1 Pe 4:9',
+    t1:'Encontré tus palabras y me alimenté de ellas',t1t:'(10 min)',
+    t2:'Busquemos perlas escondidas',t2t:'(10 min)',
+    t3:'Lectura de la Biblia',t3s:'Jer 15:1-9 · th lec. 8',t3t:'(4 min)',
+    min:[{ti:'Haga revisitas',src:'lmd lec. 7 pt. 4',tm:'(4 min)'},
+         {ti:'Explique sus creencias',src:'lmd lec. 8 pt. 3',tm:'(4 min)'}],
+    s2:'Canción 141: Busquemos la paz — Sal 34:14',
+    liv:[{ti:'Mantengamos el gozo a pesar de la oposición',src:'Jer 15:15 · Análisis con el auditorio',tm:'(15 min)',tp:'n'},
+         {ti:'Estudio bíblico de la congregación',src:'lfb lec. 100',tm:'(30 min)',tp:'b'}],
+    s3:'Canción 58: Atentos a la Palabra de Dios — Luc 11:28',ot:'(3 min)'},
+  w5:{label:'📅 20–26 JUL 2026',reading:'JEREMÍAS 17, 18',
+    s1:'Canción 3: Jehová es nuestra fuerza — Sal 28:7',
+    t1:'Confiemos plenamente en Jehová',t1t:'(10 min)',
+    t2:'Busquemos perlas escondidas',t2t:'(10 min)',
+    t3:'Lectura de la Biblia',t3s:'Jer 17:19-27 · th lec. 10',t3t:'(4 min)',
+    min:[{ti:'Empiece conversaciones',src:'lmd lec. 9 pt. 2',tm:'(4 min)'},
+         {ti:'Haga revisitas',src:'lmd lec. 10 pt. 1',tm:'(4 min)'}],
+    s2:'Canción 54: Tengamos fe — Heb 11:1',
+    liv:[{ti:'El corazón es traicionero',src:'Jer 17:9 · Análisis con el auditorio',tm:'(15 min)',tp:'n'},
+         {ti:'Estudio bíblico de la congregación',src:'lfb lec. 101',tm:'(30 min)',tp:'b'}],
+    s3:'Canción 58: Atentos a la Palabra de Dios — Luc 11:28',ot:'(3 min)'},
+  w6:{label:'📅 27 JUL – 2 AGO 2026',reading:'JEREMÍAS 19, 20',
+    s1:'Canción 92: Prediquemos a todo tipo de personas — 1 Tim 2:4',
+    t1:'La palabra de Jehová era como un fuego ardiente',t1t:'(10 min)',
+    t2:'Busquemos perlas escondidas',t2t:'(10 min)',
+    t3:'Lectura de la Biblia',t3s:'Jer 20:1-11 · th lec. 11',t3t:'(4 min)',
+    min:[{ti:'Explique sus creencias',src:'lmd lec. 11 pt. 3',tm:'(4 min)'},
+         {ti:'Haga discípulos',src:'lmd lec. 12 pt. 4',tm:'(4 min)'},
+         {ti:'Haga revisitas',src:'th lec. 15',tm:'(3 min)'}],
+    s2:'Canción 104: Esforcémonos por ser santos — 1 Pe 1:16',
+    liv:[{ti:'Jehová está conmigo como un guerrero imponente',src:'Jer 20:11 · Análisis con el auditorio',tm:'(15 min)',tp:'n'},
+         {ti:'Estudio bíblico de la congregación',src:'lfb lec. 102 y repaso',tm:'(30 min)',tp:'b'}],
+    s3:'Canción 58: Atentos a la Palabra de Dios — Luc 11:28',ot:'(3 min)'}
+};
+
+let curWeek='w1', curTheme=localStorage.getItem('presTheme')||'light';
+let names=JSON.parse(localStorage.getItem('presNames')||'[]');
+let cid=0;
+
+/* ── THEME ── */
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t);document.querySelector('.theme-toggle').textContent=t==='dark'?'☀️':'🌙';}
+function toggleTheme(){curTheme=curTheme==='light'?'dark':'light';localStorage.setItem('presTheme',curTheme);applyTheme(curTheme);}
+
+/* ── TOAST ── */
+let _tt;
+function showToast(m,tp=''){const el=document.getElementById('toast');el.textContent=m;el.className='show '+(tp||'');clearTimeout(_tt);_tt=setTimeout(()=>el.className='',2800);}
+
+function showSaved(){const el=document.getElementById('saveInd');el.classList.add('visible');setTimeout(()=>el.classList.remove('visible'),2000);}
+
+function autoG(el){el.style.height='36px';el.style.height=Math.min(el.scrollHeight,110)+'px';}
+
+/* ── FONT SIZE ── */
+function applyFS(v){
+  document.body.style.fontSize=(v/100*14)+'px';
+  document.body.classList.toggle('font-large',v>=115);
+  localStorage.setItem('presFontSize',v);
+}
+
+/* ── DROPDOWN ── */
+function toggleDD(){document.getElementById('weeksDD').classList.toggle('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('.dropdown'))document.getElementById('weeksDD').classList.remove('open');});
+
+/* ── CRONO ── */
+const cTimers=new Map();
+function cToggle(btn){
+  const w=btn.closest('.crono');
+  if(w.dataset.r==='1'){clearInterval(cTimers.get(w));cTimers.delete(w);w.dataset.r='0';btn.textContent='▶';}
+  else{w.dataset.r='1';btn.textContent='⏸';
+    cTimers.set(w,setInterval(()=>{
+      const s=parseInt(w.dataset.s)+1;w.dataset.s=s;
+      w.querySelector('.crono-disp').textContent=Math.floor(s/60)+':'+(s%60<10?'0':'')+s%60;
+    },1000));}
+}
+function cReset(btn){
+  const w=btn.closest('.crono');clearInterval(cTimers.get(w));cTimers.delete(w);
+  w.dataset.r='0';w.dataset.s='0';
+  w.querySelector('.crono-disp').textContent='0:00';
+  w.querySelector('.crono-btn').textContent='▶';
+}
+
+/* ── AUTOCOMPLETE ── */
+function acI(inp){
+  let ul=inp.parentNode.querySelector('.ac-list');
+  if(!ul){
+    ul=document.createElement('ul');ul.className='ac-list';inp.parentNode.appendChild(ul);
+    inp.addEventListener('blur',()=>setTimeout(()=>ul.style.display='none',150));
+    inp.addEventListener('keydown',e=>{
+      const its=[...ul.querySelectorAll('li')],ai=its.findIndex(i=>i.classList.contains('active'));
+      if(e.key==='ArrowDown'){e.preventDefault();its.forEach(i=>i.classList.remove('active'));its[(ai+1)%its.length]?.classList.add('active');}
+      else if(e.key==='ArrowUp'){e.preventDefault();its.forEach(i=>i.classList.remove('active'));its[(ai-1+its.length)%its.length]?.classList.add('active');}
+      else if(e.key==='Enter'){const a=ul.querySelector('.active');if(a){inp.value=a.textContent;ul.style.display='none';scheduleSave();}}
+      else if(e.key==='Escape')ul.style.display='none';
+    });
+  }
+  const val=inp.value.trim().toLowerCase();
+  ul.innerHTML='';
+  if(!val){ul.style.display='none';return;}
+  const m=names.filter(n=>n.toLowerCase().includes(val));
+  if(!m.length){ul.style.display='none';return;}
+  m.forEach(n=>{const li=document.createElement('li');li.textContent=n;li.onmousedown=e=>{e.preventDefault();inp.value=n;ul.style.display='none';scheduleSave();};ul.appendChild(li);});
+  ul.style.display='block';
+}
+function saveName(v){v=v.trim();if(!v||names.includes(v))return;names.push(v);names.sort();localStorage.setItem('presNames',JSON.stringify(names));}
+
+/* ── BUILD MINISTRY ITEM ── */
+function mkM(id,ti='',src='',tm='',st='',hl='',note=''){
+  const d=document.createElement('div');d.className='assignment';d.id='m'+id;
+  d.innerHTML=`
+    <div class="asgn-row">
+      <span class="asgn-num mn"></span>
+      <input class="mi-title-inp" value="${x(ti)}" placeholder="Título del tema…" oninput="scheduleSave()">
+      <input class="mi-time-inp" value="${x(tm)}" placeholder="(# min)" oninput="scheduleSave()">
+      <div class="crono no-print" data-s="0" data-r="0">
+        <span class="crono-disp">0:00</span>
+        <button class="crono-btn" onclick="cToggle(this)">▶</button>
+        <button class="crono-btn" onclick="cReset(this)">↺</button>
+      </div>
+      <div class="order-actions no-print">
+        <button class="btn-icon" onclick="mvUp(this)">🔼</button>
+        <button class="btn-icon" onclick="mvDn(this)">🔽</button>
+        <button class="btn-icon del" onclick="this.closest('.assignment').remove();renum();scheduleSave()">✕</button>
+      </div>
+    </div>
+    <div class="asgn-src">${x(src)}</div>
+    <div class="person-row">
+      <span class="lbl-sm">Estudiante</span>
+      <div style="position:relative"><input type="text" class="person-inp ms" value="${x(st)}" placeholder="Hermano" oninput="scheduleSave();acI(this)"></div>
+      <span class="lbl-sm" style="margin-left:6px">Ayudante</span>
+      <div style="position:relative"><input type="text" class="person-inp mh" value="${x(hl)}" placeholder="Hermano" oninput="scheduleSave();acI(this)"></div>
+    </div>
+    <div class="notes-wrap"><textarea placeholder="Notas…" oninput="autoG(this);scheduleSave()">${x(note)}</textarea></div>`;
+  return d;
+}
+
+/* ── BUILD LIVING ITEM ── */
+function mkL(id,ti='',src='',tm='',asgn='',lect='',note='',tp='n'){
+  const isBible=tp==='b';
+  const d=document.createElement('div');d.className='assignment';d.id='l'+id;
+  d.innerHTML=`
+    <div class="asgn-row">
+      <span class="asgn-num ln"></span>
+      <span class="asgn-title lt">${x(ti)}</span>
+      <span class="asgn-time lti">${x(tm)}</span>
+      <div class="crono no-print" data-s="0" data-r="0">
+        <span class="crono-disp">0:00</span>
+        <button class="crono-btn" onclick="cToggle(this)">▶</button>
+        <button class="crono-btn" onclick="cReset(this)">↺</button>
+      </div>
+      <div class="order-actions no-print">
+        <button class="btn-icon" onclick="mvUp(this)">🔼</button>
+        <button class="btn-icon" onclick="mvDn(this)">🔽</button>
+        <button class="btn-icon del" onclick="this.closest('.assignment').remove();renum();scheduleSave()">✕</button>
+      </div>
+    </div>
+    <div class="asgn-src">${x(src)}</div>
+    <div class="person-row">
+      ${isBible
+        ?`<span class="lbl-sm">Conductor</span>
+          <div style="position:relative"><input type="text" class="person-inp lc" value="${x(asgn)}" placeholder="Hermano" oninput="scheduleSave();acI(this)"></div>
+          <span class="lbl-sm" style="margin-left:6px">Lector</span>
+          <div style="position:relative"><input type="text" class="person-inp ll" value="${x(lect)}" placeholder="Hermano" oninput="scheduleSave();acI(this)"></div>`
+        :`<span class="lbl-sm">Orador</span>
+          <div style="position:relative"><input type="text" class="person-inp lo" value="${x(asgn)}" placeholder="Hermano" oninput="scheduleSave();acI(this)"></div>`}
+    </div>
+    <div class="notes-wrap"><textarea placeholder="Notas…" oninput="autoG(this);scheduleSave()">${x(note)}</textarea></div>`;
+  return d;
+}
+
+function addM(ti='',src='',tm='',st='',hl='',note=''){document.getElementById('ministryCont').appendChild(mkM(++cid,ti,src,tm,st,hl,note));renum();scheduleSave();}
+function addL(ti='',src='',tm='',a='',l='',note='',tp='n'){document.getElementById('livingCont').appendChild(mkL(++cid,ti,src,tm,a,l,note,tp));renum();scheduleSave();}
+
+function mvUp(btn){const el=btn.closest('.assignment'),pr=el.previousElementSibling;if(pr?.classList.contains('assignment')){el.parentNode.insertBefore(el,pr);renum();scheduleSave();}}
+function mvDn(btn){const el=btn.closest('.assignment'),nx=el.nextElementSibling;if(nx?.classList.contains('assignment')){el.parentNode.insertBefore(nx,el);renum();scheduleSave();}}
+
+function renum(){
+  const mn=document.querySelectorAll('#ministryCont .mn');
+  mn.forEach((el,i)=>el.textContent=(i+4)+'. ');
+  const ln=document.querySelectorAll('#livingCont .ln');
+  ln.forEach((el,i)=>el.textContent=(i+4+mn.length)+'. ');
+}
+
+/* ── ANUNCIOS ── */
+function addAnuncio(txt=''){
+  const w=document.createElement('div');w.style.cssText='position:relative;margin-bottom:10px';
+  w.innerHTML=`<textarea placeholder="Escribe el anuncio aquí…" oninput="scheduleSave()"
+    style="width:100%;min-height:68px;padding:8px 34px 8px 11px;border:1px solid var(--border);
+    border-radius:8px;background:var(--surface-alt);color:var(--text);font-family:inherit;font-size:13px;resize:vertical">${x(txt)}</textarea>
+    <button onclick="this.closest('div').remove();scheduleSave()" class="no-print"
+    style="position:absolute;top:8px;right:8px;width:21px;height:21px;background:#dc2626;
+    color:#fff;border:none;border-radius:50%;font-size:12px;cursor:pointer;font-weight:700">✕</button>`;
+  document.getElementById('anunciosCont').appendChild(w);scheduleSave();
+}
+
+/* ── LOAD WEEK ── */
+function loadWeek(k){
+  const d=WD[k];if(!d)return;
+  curWeek=k;
+  document.getElementById('weekBtn').textContent=d.label;
+  document.querySelectorAll('#weeksDD a').forEach(a=>a.classList.toggle('wk-active',a.dataset.week===k));
+  document.getElementById('lblReading').textContent=d.reading;
+  gv('inSong1').value=d.s1;
+  gv('lblT1').textContent=d.t1; gv('lblT1t').textContent=d.t1t;
+  gv('lblT2').textContent=d.t2; gv('lblT2t').textContent=d.t2t;
+  gv('lblT3').textContent=d.t3; gv('lblT3t').textContent=d.t3t;
+  gv('lblT3src').textContent=d.t3s||'';
+  document.getElementById('ministryCont').innerHTML='';
+  d.min.forEach(m=>addM(m.ti,m.src,m.tm));
+  gv('inSong2').value=d.s2;
+  document.getElementById('livingCont').innerHTML='';
+  d.liv.forEach(l=>addL(l.ti,l.src,l.tm,'','','',l.tp));
+  gv('inSong3').value=d.s3;
+  gv('lblOutroT').textContent=d.ot;
+  ['inOra1','inT1','inT2','inT3','inOra2'].forEach(id=>gv(id).value='');
+  document.querySelectorAll('.ms,.mh,.lo,.lc,.ll').forEach(el=>el.value='');
+  document.querySelectorAll('textarea').forEach(el=>{el.value='';autoG(el);});
+  document.getElementById('anunciosCont').innerHTML='';
+  document.getElementById('weeksDD').classList.remove('open');
+  renum();
+  restoreWeek(k);
+}
+
+/* ── URL LOADER ── */
+function openUrl(){document.getElementById('urlModal').classList.add('open');}
+function closeUrl(){document.getElementById('urlModal').classList.remove('open');}
+async function fetchUrl(){
+  const url=document.getElementById('urlInput').value.trim();
+  const st=document.getElementById('urlStatus');
+  if(!url){st.textContent='⚠️ Ingresa una URL válida.';return;}
+  st.textContent='⏳ Conectando…';
+  try{
+    // Use allorigins as CORS proxy
+    const proxy='https://api.allorigins.win/raw?url='+encodeURIComponent(url);
+    const res=await fetch(proxy,{signal:AbortSignal.timeout(12000)});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const html=await res.text();
+    if(!html||html.length<200){st.textContent='⚠️ El sitio no devolvió contenido. Probablemente requiere JavaScript del navegador.';return;}
+    const r=parseWOL(html);
+    if(!r){st.textContent='⚠️ No se pudo extraer el programa automáticamente. El sitio WOL usa JavaScript para cargar el contenido. Puedes editar los campos manualmente.';return;}
+    applyParsed(r);
+    st.textContent='✅ Datos cargados. Revisa y completa los campos.';
+    setTimeout(closeUrl,1500);
+  }catch(e){
+    if(e.name==='TimeoutError')st.textContent='⚠️ Tiempo de espera agotado. Verifica tu conexión.';
+    else st.textContent='⚠️ Error de conexión. El sitio WOL requiere JavaScript del navegador para mostrar el programa. Usa los datos precargados o edita manualmente.';
+  }
+}
+function parseWOL(html){
+  const dp=new DOMParser();
+  const doc=dp.parseFromString(html,'text/html');
+  // Try to extract reading
+  const txt=doc.body?.textContent||'';
+  const readingM=txt.match(/Lectura.*?:?\s*([A-ZÁÉÍÓÚ][A-ZÁÉÍÓÚA-Za-z]+\s+\d+.*?)(?:\n|\.)/);
+  if(!readingM)return null;
+  return {reading:readingM[1].trim()};
+}
+function applyParsed(p){
+  if(p.reading)gv('lblReading').textContent=p.reading;
+}
+
+/* ── PERSIST ── */
+let _sv;
+function scheduleSave(){clearTimeout(_sv);_sv=setTimeout(()=>{saveW();showSaved();},700);}
+
+function collect(){
+  const s={ora1:gv('inOra1').value,t1:gv('inT1').value,t2:gv('inT2').value,
+    t3:gv('inT3').value,ora2:gv('inOra2').value,
+    s1:gv('inSong1').value,s2:gv('inSong2').value,s3:gv('inSong3').value,
+    min:[],liv:[],anun:[],notes:[]};
+  document.querySelectorAll('#ministryCont .assignment').forEach(el=>{
+    s.min.push({ti:el.querySelector('.mi-title-inp')?.value||'',
+      src:el.querySelector('.asgn-src')?.textContent||'',
+      tm:el.querySelector('.mi-time-inp')?.value||'',
+      st:el.querySelector('.ms')?.value||'',hl:el.querySelector('.mh')?.value||'',
+      note:el.querySelector('textarea')?.value||''});
+  });
+  document.querySelectorAll('#livingCont .assignment').forEach(el=>{
+    const ib=!!el.querySelector('.lc');
+    s.liv.push({ti:el.querySelector('.lt')?.textContent||'',
+      src:el.querySelector('.asgn-src')?.textContent||'',
+      tm:el.querySelector('.lti')?.textContent||'',
+      a:ib?el.querySelector('.lc')?.value||'':el.querySelector('.lo')?.value||'',
+      l:el.querySelector('.ll')?.value||'',
+      note:el.querySelector('textarea')?.value||'',tp:ib?'b':'n'});
+  });
+  document.querySelectorAll('#anunciosCont textarea').forEach(el=>s.anun.push(el.value));
+  document.querySelectorAll('#expTesoros .notes-wrap textarea').forEach(el=>s.notes.push(el.value));
+  return s;
+}
+function saveW(){
+  try{localStorage.setItem('pd_'+curWeek,JSON.stringify(collect()));
+    document.querySelectorAll('.person-inp').forEach(el=>{if(el.value.trim())saveName(el.value);});}catch(e){}
+}
+function restoreWeek(k){
+  try{
+    const raw=localStorage.getItem('pd_'+k);if(!raw)return;
+    const s=JSON.parse(raw);
+    if(s.ora1)gv('inOra1').value=s.ora1;
+    if(s.t1)gv('inT1').value=s.t1;if(s.t2)gv('inT2').value=s.t2;
+    if(s.t3)gv('inT3').value=s.t3;if(s.ora2)gv('inOra2').value=s.ora2;
+    if(s.s1)gv('inSong1').value=s.s1;if(s.s2)gv('inSong2').value=s.s2;if(s.s3)gv('inSong3').value=s.s3;
+    if(s.min?.length){document.getElementById('ministryCont').innerHTML='';s.min.forEach(m=>addM(m.ti,m.src,m.tm,m.st,m.hl,m.note));}
+    if(s.liv?.length){document.getElementById('livingCont').innerHTML='';s.liv.forEach(l=>addL(l.ti,l.src,l.tm,l.a,l.l,l.note,l.tp));}
+    if(s.anun?.length){document.getElementById('anunciosCont').innerHTML='';s.anun.forEach(a=>addAnuncio(a));}
+    if(s.notes?.length){const tas=document.querySelectorAll('#expTesoros .notes-wrap textarea');s.notes.forEach((n,i)=>{if(tas[i]){tas[i].value=n;autoG(tas[i]);}});}
+    renum();document.querySelectorAll('textarea').forEach(autoG);
+  }catch(e){}
+}
+
+/* ── EXPORT JSON ── */
+function exportJSON(){
+  saveW();
+  const all={v:2,date:new Date().toISOString(),cong:gv('inCong').value,pres:gv('inPres').value,
+    theme:curTheme,names,curWeek,weeks:{}};
+  Object.keys(WD).forEach(k=>{const r=localStorage.getItem('pd_'+k);if(r)try{all.weeks[k]=JSON.parse(r);}catch(e){}});
+  all.weeks[curWeek]=collect();
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(all,null,2)],{type:'application/json'}));
+  a.download='presidencia_'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();showToast('✓ Planilla exportada','success');
+}
+function importJSON(ev){
+  const file=ev.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);if(!d.weeks)throw 0;
+      if(d.cong){gv('inCong').value=d.cong;localStorage.setItem('presCong',d.cong);}
+      if(d.pres){gv('inPres').value=d.pres;localStorage.setItem('presPres',d.pres);}
+      if(d.theme){curTheme=d.theme;localStorage.setItem('presTheme',d.theme);applyTheme(d.theme);}
+      if(d.names){names=d.names;localStorage.setItem('presNames',JSON.stringify(d.names));}
+      Object.entries(d.weeks).forEach(([k,v])=>localStorage.setItem('pd_'+k,JSON.stringify(v)));
+      loadWeek(d.curWeek||'w1');showToast('✓ Planilla importada','success');
+    }catch(e){showToast('⚠️ Archivo no válido','error');}
+  };
+  reader.readAsText(file);ev.target.value='';
+}
+
+/* ── SHARE ── */
+function shareProgram(){
+  const miss=[];
+  if(!gv('inOra1').value)miss.push('Oración apertura');
+  if(!gv('inT1').value)miss.push('Orador 1');if(!gv('inT2').value)miss.push('Orador 2');
+  if(!gv('inT3').value)miss.push('Estudiante 3');if(!gv('inOra2').value)miss.push('Oración final');
+  if(miss.length){showToast('⚠️ Faltan: '+miss.slice(0,2).join(', ')+(miss.length>2?'…':''),'error');return;}
+  const cong=gv('inCong').value,pres=gv('inPres').value||'—',week=document.getElementById('weekBtn').textContent;
+  let txt=`📋 *PROGRAMA DE LA REUNIÓN*\n${cong?'🏛️ '+cong+'\n':''}🗓️ ${week}\n📖 Lectura: ${document.getElementById('lblReading').textContent}\n\n`;
+  txt+=`✨ *INTRODUCCIÓN*\n👤 Presidente: ${pres}\n🎵 ${gv('inSong1').value}\n🙏 Oración: ${gv('inOra1').value}\n\n`;
+  txt+=`💎 *TESOROS*\n1. ${document.getElementById('lblT1').textContent}: ${gv('inT1').value}\n2. ${document.getElementById('lblT2').textContent}: ${gv('inT2').value}\n3. ${document.getElementById('lblT3').textContent}: ${gv('inT3').value}\n\n`;
+  txt+=`🗣️ *SEAMOS MEJORES MAESTROS*\n`;
+  let mn=4;document.querySelectorAll('#ministryCont .assignment').forEach(el=>{
+    txt+=`${mn++}. ${el.querySelector('.mi-title-inp')?.value||''}: ${el.querySelector('.ms')?.value||'—'}${el.querySelector('.mh')?.value?' / Ayudante: '+el.querySelector('.mh').value:''}\n`;
+  });
+  txt+=`\n🎵 ${gv('inSong2').value}\n\n🕊️ *NUESTRA VIDA CRISTIANA*\n`;
+  document.querySelectorAll('#livingCont .assignment').forEach(el=>{
+    const or=el.querySelector('.lo')?.value||el.querySelector('.lc')?.value||'—';
+    txt+=`• ${el.querySelector('.lt')?.textContent||''}: ${or}\n`;
+  });
+  txt+=`\n🎵 ${gv('inSong3').value}\n🙏 Oración final: ${gv('inOra2').value}`;
+  const an=[...document.querySelectorAll('#anunciosCont textarea')].map(t=>t.value.trim()).filter(Boolean);
+  if(an.length)txt+=`\n\n📋 *ANUNCIOS*\n`+an.map((a,i)=>`${i+1}. ${a}`).join('\n');
+  if(navigator.share)navigator.share({title:'Programa',text:txt}).catch(()=>{});
+  else navigator.clipboard.writeText(txt).then(()=>showToast('✓ Copiado','success')).catch(()=>showToast('⚠️ Error al copiar','error'));
+}
+
+/* ── EXPORT JPG ── */
+async function exportJpg(secId, fname, hdrId, hdrColor){
+  if(!window.html2canvas){
+    await new Promise((res,rej)=>{
+      const s=document.createElement('script');
+      s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      s.onload=res;s.onerror=rej;document.head.appendChild(s);
+    });
+  }
+  const sec=document.getElementById(secId);
+  if(!sec){showToast('⚠️ Sección no encontrada','error');return;}
+  // Temporarily hide no-print elements
+  const np=[...sec.querySelectorAll('.no-print')];
+  np.forEach(e=>e.style.visibility='hidden');
+  try{
+    const bg=getComputedStyle(document.documentElement).getPropertyValue('--surface').trim()||'#ffffff';
+    const canvas=await html2canvas(sec,{backgroundColor:bg,scale:2,useCORS:true,logging:false,
+      onclone:(cloned)=>{
+        // Add section header color if provided
+        if(hdrId){
+          const hdr=cloned.getElementById(hdrId);
+          if(hdr){
+            // already has bg-color via CSS class, just ensure it renders
+            hdr.style.webkitPrintColorAdjust='exact';
+          }
+        }
+      }
+    });
+    const a=document.createElement('a');
+    a.download=(fname||'seccion')+'.jpg';
+    a.href=canvas.toDataURL('image/jpeg',0.93);
+    a.click();
+    showToast('✓ Imagen exportada','success');
+  }catch(e){showToast('⚠️ Error al generar imagen','error');console.error(e);}
+  np.forEach(e=>e.style.visibility='');
+}
+
+/* ── HELPERS ── */
+function gv(id){return document.getElementById(id)||{value:'',textContent:''};}
+function x(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+/* ── INIT ── */
+window.onload=()=>{
+  applyTheme(curTheme);
+  const c=localStorage.getItem('presCong');if(c)gv('inCong').value=c;
+  const p=localStorage.getItem('presPres');if(p)gv('inPres').value=p;
+  const fs=localStorage.getItem('presFontSize');
+  if(fs){document.getElementById('fsSlider').value=fs;applyFS(fs);}
+  loadWeek('w1');
+};
+</script>
+</body>
+</html>
